@@ -1,0 +1,20 @@
+name: Verify
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.mjs
+          node --check data.mjs
+          node --check model.mjs
+          node --check server.mjs
+      - run: npm test
+      - run: git diff --check
