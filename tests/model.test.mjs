@@ -1,49 +1,64 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {seriesOutcomes,markets,mapProbability,implied,validateMatch} from '../model.mjs';
-import {FIXTURES} from '../data.mjs';
-
-test('terminal series distribution conserves probability with only valid scores',()=>{
-  for(const bo of [1,3,5]) for(const p of [0,.1,.5,.72,1]) {
-    const rows=seriesOutcomes(p,bo), target=(bo+1)/2;
-    assert.ok(Math.abs(rows.reduce((s,o)=>s+o.p,0)-1)<1e-12);
-    assert.ok(rows.every(o=>(o.a===target && o.b<target)||(o.b===target && o.a<target)));
-    const win=rows.filter(o=>o.a>o.b).reduce((s,o)=>s+o.p,0);
-    if(p===.5) assert.ok(Math.abs(win-.5)<1e-12);
-    if(p===0 || p===1) assert.equal(win,p);
+import {readFile} from 'node:fs/promises';
+import {forecast,seriesOutcomes,mysticForecast} from '../model.mjs';
+import {predictionAvailability,validateSnapshot,dailyWindow,timeTW} from '../schedule.mjs';
+const snapshot=validateSnapshot(JSON.parse(await readFile(new URL('../data/schedule.json',import.meta.url),'utf8')));
+const m={id:'115660588583171786',startTime:'2026-10-15T18:00:00Z',observedAt:'2026-10-15T14:00:00Z',stage:'playin',round:'Play-Ins',bestOf:5,state:'scheduled',teams:[{id:'98767991877340524',code:'C9',name:'Cloud9 Kia',region:'NA',wins:0},{id:'111692118851466302',code:'KC',name:'Karmine Corp',region:'EMEA',wins:0}]};
+const baseRatings=[{id:m.teams[0].id,elo:1358},{id:m.teams[1].id,elo:1403}];
+const now=Date.parse(m.startTime)-3600000;
+test('terminal distributions conserve probability and contain only legal scores',()=>{
+ for(const bo of [1,3,5])for(const p of [0,.1,.5,.72,1]){
+  const rows=seriesOutcomes(p,bo),target=(bo+1)/2;
+  assert.ok(Math.abs(rows.reduce((s,o)=>s+o.p,0)-1)<1e-12);
+  assert.equal(rows.length,2*target);
+  assert.ok(rows.every(o=>(o.a===target&&o.b<target)||(o.b===target&&o.a<target)));
+  const win=rows.filter(o=>o.a>o.b).reduce((s,o)=>s+o.p,0);
+  if(p===.5)assert.ok(Math.abs(win-.5)<1e-12);
+  if(p===0||p===1)assert.equal(win,p);
+ }
+ assert.throws(()=>seriesOutcomes(NaN,5));assert.throws(()=>seriesOutcomes(.5,7));
+});
+test('official Elo drives a symmetric, monotone score forecast',()=>{
+ const ratings=m.teams.map(t=>({id:t.id,elo:1400}));
+ const f=forecast(m,ratings,0,now);
+ assert.equal(f.p,.5);assert.equal(f.win,.5);assert.equal(f.top.length,4);
+ assert.ok(forecast(m,ratings,50,now).win>f.win);
+ assert.ok(forecast(m,ratings,-50,now).win<f.win);
+ const unequal=[{...ratings[0],elo:1500},ratings[1]];
+ assert.ok(forecast(m,unequal,0,now).win>.5);
+ assert.equal(forecast(m,ratings,1000,now).adjustment,100);
+});
+test('TBD, missing ratings, live, completed and elapsed slots do not produce pregame forecasts',()=>{
+ const future={...m,startTime:new Date(now+3600000).toISOString().replace('.000Z','Z'),state:'scheduled'};
+ assert.equal(predictionAvailability(future,now),'ready');
+ assert.equal(forecast({...future,teams:[future.teams[0],{id:'0',code:'TBD'}]},baseRatings,0,now),null);
+ assert.equal(forecast({...future,state:'live'},baseRatings,0,now),null);
+ assert.equal(forecast({...future,state:'completed'},baseRatings,0,now),null);
+ assert.equal(forecast(future,[],0,now),null);
+ assert.equal(forecast(future,baseRatings,0,Date.parse(future.startTime)),null);
+ assert.equal(forecast({...future,observedAt:'2026-10-13T14:00:00Z'},baseRatings,0,now),null);
+ assert.equal(predictionAvailability(future,Date.parse(future.startTime)),'pending');
+});
+test('mystic themes never mutate professional probabilities and generate legal score scenarios',()=>{
+ for(const bestOf of [1,3,5]){
+  const match={...m,bestOf},f=forecast(match,baseRatings,0,now),before=JSON.stringify(f);
+  for(const theme of ['underdog','legacy','momentum']){
+   const mystic=mysticForecast(match,f,theme),target=(bestOf+1)/2;
+   assert.equal(Math.max(mystic.a,mystic.b),target);assert.equal(Math.min(mystic.a,mystic.b),target-1);
+   assert.equal(JSON.stringify(f),before);assert.ok(!('p' in mystic));
   }
+ }
+ assert.equal(mysticForecast(m,null),null);
 });
-test('BO5 fair total and handicap settle from complete terminal scores',()=>{
-  const m=markets(FIXTURES[0],[50,50,50,50,50]);
-  assert.equal(m.list.find(x=>x.key==='total').options[0].p,.75);
-  assert.equal(m.list.find(x=>x.key==='handicap').options[0].p,.3125);
-  assert.ok(m.list.filter(x=>!x.unavailable).every(x=>Math.abs(x.options.reduce((s,o)=>s+o.p,0)-1)<1e-12));
+test('daily update boundary and rendered times use Taiwan time',()=>{
+ assert.equal(dailyWindow(new Date('2026-10-15T21:59:59Z')),'2026-10-15');
+ assert.equal(dailyWindow(new Date('2026-10-15T22:00:00Z')),'2026-10-16');
+ assert.match(timeTW('2026-10-15T18:00:00Z'),/10\/16.*02:00/);
 });
-test('BO3 and BO5 alternate total-line settlement is exact',()=>{
-  const bo3=markets({...FIXTURES[0],bestOf:3},[50,50,50,50,50]);
-  assert.equal(bo3.list.find(x=>x.key==='total').options[0].p,.5);
-  assert.equal(bo3.list.find(x=>x.key==='handicap').options[0].p,.25);
-  const bo5=markets(FIXTURES[0],[50,50,50,50,50],'balanced',4.5);
-  assert.equal(bo5.list.find(x=>x.key==='total').options[0].p,.375);
-});
-test('BO1 excludes impossible spread, total, and score markets; objectives have no fabricated probability',()=>{
-  const m=markets({...FIXTURES[0],bestOf:1});
-  assert.ok(!m.list.some(x=>['handicap','total','score'].includes(x.key)));
-  assert.ok(m.list.filter(x=>x.unavailable).every(x=>x.options.every(o=>o.p===null)));
-});
-test('no-vig probabilities sum to one, invalid odds rejected',()=>{
-  const m=implied([1.72,2.08]);
-  assert.ok(Math.abs(m.normalized.reduce((a,b)=>a+b,0)-1)<1e-12);
-  for(const o of [[1,2],[0,2],[NaN,2],[Infinity,2],[1001,2]]) assert.equal(implied(o),null);
-});
-test('rating direction is monotone; neutral is symmetric',()=>{
-  assert.equal(mapProbability([50,50,50,50,50]),.5);
-  assert.ok(mapProbability([75,75,75,75,75])>mapProbability([60,60,60,60,60]));
-});
-test('import validation rejects malformed inputs and bounds strings',()=>{
-  assert.equal(validateMatch({...FIXTURES[0],bestOf:7}),null);
-  assert.equal(validateMatch({...FIXTURES[0],scores:[1,2]}),null);
-  assert.equal(validateMatch({...FIXTURES[0],odds:[1,2]}),null);
-  const clean=validateMatch({...FIXTURES[0],secret:'not retained',a:'x'.repeat(200)});
-  assert.equal(clean.a.length,60); assert.ok(!('secret' in clean));
+test('production snapshot contains official IDs and no prediction or price inputs',()=>{
+ assert.ok(snapshot.matches.every(x=>/^\d+$/.test(x.id)));
+ assert.ok(!/"(?:odds|scores|custom)"/.test(JSON.stringify(snapshot)));
+ const invalid=structuredClone(snapshot);invalid.matches[0].teams[0].code='<script>';
+ assert.throws(()=>validateSnapshot(invalid));
 });

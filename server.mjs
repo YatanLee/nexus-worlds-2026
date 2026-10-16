@@ -1,20 +1,27 @@
 import http from 'node:http';
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import {readFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
 import path from 'node:path';
-
-const root = fileURLToPath(new URL('.', import.meta.url));
-const port = Number(process.env.PORT || 4196);
-const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.mjs':'text/javascript; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.webp':'image/webp' };
-const server=http.createServer(async (req, res) => {
+import {readSnapshot,readStatus,refreshSchedule} from './crawler.mjs';
+const root=fileURLToPath(new URL('.',import.meta.url));
+const port=Number(process.env.PORT||4196);
+const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp'};
+const publicFiles=new Set(['/','/index.html','/app.mjs','/data.mjs','/model.mjs','/schedule.mjs','/styles.css','/tokens.css','/favicon.svg','/assets/worlds-hero.webp']);
+const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"};
+const server=http.createServer(async(req,res)=>{
+  const send=(status,type,body)=>{res.writeHead(status,{...headers,'Content-Type':type});res.end(req.method==='HEAD'?undefined:body);};
+  if(!['GET','HEAD'].includes(req.method))return send(405,'text/plain','Method not allowed');
   try {
-    if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405); return res.end(); }
-    const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-    const target = path.resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
-    const relative=path.relative(root,target);
-    if (relative.startsWith('..') || path.isAbsolute(relative) || !mime[path.extname(target)] || /[/\\](tests|design)[/\\]/.test(target)) { res.writeHead(404); return res.end('Not found'); }
-    const body = await readFile(target);
-    res.writeHead(200, { 'Content-Type': mime[path.extname(target)], 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff', 'Referrer-Policy':'no-referrer', 'Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'" });
-    res.end(req.method === 'HEAD' ? undefined : body);
-  } catch { res.writeHead(404); res.end('Not found'); }
-}).listen(port, '127.0.0.1', () => console.log(`NEXUS ready: http://127.0.0.1:${server.address().port}/`));
+    const url=new URL(req.url,'http://localhost'),pathname=decodeURIComponent(url.pathname);
+    if(url.search)return send(404,'text/plain','Not found');
+    if(pathname==='/api/schedule')return send(200,'application/json; charset=utf-8',JSON.stringify(await readSnapshot()));
+    if(pathname==='/api/status')return send(200,'application/json; charset=utf-8',JSON.stringify(await readStatus()));
+    if(!publicFiles.has(pathname))return send(404,'text/plain','Not found');
+    const file=pathname==='/'?'index.html':pathname.slice(1);
+    send(200,mime[path.extname(file)],await readFile(path.join(root,file)));
+  } catch {send(404,'text/plain','Not found');}
+}).listen(port,'127.0.0.1',()=>console.log(`NEXUS ready: http://127.0.0.1:${server.address().port}/`));
+if(process.env.NEXUS_DISABLE_CRAWLER!=='1') {
+  const update=()=>refreshSchedule().then(r=>{if(!r.skipped)console.log(r.ok?`Schedule refreshed: ${r.count} matches`:'Schedule refresh failed; last good snapshot retained.');}).catch(()=>console.log('Schedule refresh unavailable; last good snapshot retained.'));
+  update();const timer=setInterval(update,60000);timer.unref();server.on('close',()=>clearInterval(timer));
+}
