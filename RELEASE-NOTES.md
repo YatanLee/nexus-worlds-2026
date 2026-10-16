@@ -1,48 +1,22 @@
-# v1.0.0 驗收紀錄
+# Release notes
 
-日期：2026/10/15（台灣時間）。交付：NEXUS 賽局研究所，本機執行、原始碼獨立公開。
+## 2.0.0 · Official schedule and score predictions
 
-## 範圍
+- Replaced illustrative and custom fixtures with validated Riot Worlds 2026 data; unknown opponents remain TBD with official start time and BO.
+- Removed odds inputs, pricing comparisons, and market selection flows.
+- Added daily official-page crawler, loopback read-only API, last-good retention, per-fixture last-seen time, and daily GitHub workflow.
+- Added official Elo exact-score distributions, series win probabilities, and optional manual scenario adjustment.
+- Added Key Player role analysis, roster-source certainty, source dates, and player-specific mystic observations.
+- Added three independent mystic score scenarios; these never alter model probabilities.
+- Added real-match bookmarks, local notes and JSON export in a v2 storage namespace. Legacy custom/demo data is not imported into official matches.
+- Added completed-result validation, complete-source replacement, partial-source provenance, and stale/started/TBD forecast suppression.
 
-已完成雙軌分析、台灣運彩玩法對照、BO1／3／5 模型、賽事搜尋／篩選、自訂／編輯／移除對戰、作者與來源筆記、單場觀察及 JSON 備份。真人分析師意見與真實盤口採手動整理，尚未接入資料服務；所有內建對戰及數值皆為示範。
+Validation: model/crawler/server tests, syntax checks, desktop/mobile browser interaction and visual QA, independent Security and Reviewer review. Final evidence is in the delivery report.
 
-## 自動檢查
+Known limits: SSR serialization and pagination may change. The initial page contains 40 matches and is explicitly incomplete. One automatic crawl attempt per daily window; failure retains data until tomorrow or a manual refresh. No live model, calibrated accuracy claim, or automatic starter verification. Player observations were checked on 2026-10-15 and disclose source certainty.
 
-`npm test`：8 項通過、0 失敗。涵蓋合法終局分布與機率守恆、BO3／BO5 讓局與大小、BO1 市場排除、無事件資料時不生成機率、去水機率、評分方向、匯入欄位與數值範圍、本機伺服器 CSP／路徑／方法邊界。
+The service remains local. GitHub hosts source and public factual schedule summaries only.
 
-`node --check app.mjs`、`node --check model.mjs`、`node --check server.mjs`：通過。
+## 1.0.0 · Superseded prototype
 
-## 瀏覽器操作驗證
-
-環境：Codex 內建 Chromium 瀏覽器，`http://127.0.0.1:4196/`。桌面 viewport 1512×1040；手機 viewport 402×874（扣除捲軸後內容寬 387px）。本次未以真實 iPhone Safari 裝置測試。
-
-| 檢查 | 結果／證據 |
-| --- | --- |
-| 頁面標題與內容 | NEXUS 標題、首頁、主要功能與情境資料提示均正常顯示；無空白頁或框架錯誤畫面 |
-| 主控台 | 頁面 error／warn logs 為 `[]` |
-| 分析流派與滑桿 | 切換前期節奏派得到 65.7%；近況 62→63 後為 66.1%；僅為示範模型計算證據 |
-| 賠率比較 | 輸入 2.50 後，盤口總隱含機率、去水機率與模型差同步更新；加入觀察保留 2.50／66.1% 快照 |
-| 單局事件 | 首殺玩法顯示「事件數據不足，暫不估算」及空機率 |
-| 玄學與筆記 | 歷史故事、限制與勾選可操作；作者與理由可保存；重新整理可讀取 |
-| 鍵盤操作 | 分析頁籤支援左右方向鍵、Home／End；原生對話框與表單可操作 |
-| 自訂與恢復 | 建立 QA1／QA2 BO1，重新整理後恢復同一 ID；總局數與正確比數選項隱藏；可移除自訂對戰及相關資料 |
-| 篩選／空狀態 | 瑞士輪顯示 1 列；無匹配隊名顯示空狀態，清除後恢復 |
-| 匯入安全 | 使用 `tests/fixtures/import-safety.json`；HTML payload 顯示為文字，新增圖片元素數為 0 |
-| 匯出 | JSON version=1，包含 2 筆當時測試觀察；未知欄位被捨棄；測試觀察已透過介面移除 |
-| 手機版面 | 首頁與分析頁 `scrollWidth === clientWidth === 387`，無橫向溢出；四項底部導覽正常 |
-
-## 視覺對照
-
-首頁主稿與實作對照項目：深色側欄與四項導覽、深藍／綠／紫配色、主標與橫幅層級、三列賽事結構、雙軌環形視角、下方分析預覽及觀察面板。正式截圖保存在 `design/desktop-preview.jpg`、`design/mobile-preview.jpg` 與 `design/analysis-preview.jpg`。
-
-刻意差異：移除虛構日期與官方隊徽，以隊名文字呈現；雙軌環圖移除無根據的百分比；主視覺使用另行生成的原創獎盃，手機調整裁切以保留文字對比。細節稿的額外導覽與通知未採用，介面沿用首頁架構。手機以底部導覽及單欄內容保持可讀性。
-
-## 獨立審查與修正
-
-- Security Agent：唯讀檢查輸入／匯入 XSS、URL 協定、localStorage、機密外洩、本機伺服器、來源與素材出處、公開範圍及 CI 權限，接受公開發布，無阻擋問題。
-- Reviewer Agent：唯讀檢查機率與結算、資料誠實性、測試及手機版面。發現匯入容量可能留下部分紀錄後，已改為修改資料前整批檢查；補上 BO3、4.5 局大小與伺服器測試。程式／產品驗收通過。
-- PM：已核對 Riot 2026 官方指南、台灣運彩英雄聯盟玩法與規範、DRX／T1 原始歷史文章；生成圖像出處記錄於 `design/README.md`。
-
-## 殘餘限制
-
-沒有即時賽程／賠率、真人分析師同步、經回測的預測、冠軍盤、付款或實際投注。模型與玄學皆不能保證賽果或獲利。本機儲存未加密，請勿填入個資、密鑰或機密內容。GitHub CI 使用唯讀權限與官方 action 的 major tag，未固定 commit SHA，且未部署網站。
+The initial visual prototype used illustrative data. Its fixture, pricing, and custom-match behavior has been replaced in v2.

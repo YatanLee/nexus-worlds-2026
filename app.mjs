@@ -1,209 +1,84 @@
-import { FIXTURES, FACTORS, PRESETS, SOURCES, STAGES, STORIES } from './data.mjs';
-import { markets, implied, validateMatch } from './model.mjs';
-
-const $ = s => document.querySelector(s);
-const esc = v => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pct = p => p == null ? '—' : `${(p*100).toFixed(1)}%`;
-const icon = (name,cls='') => {
-  const paths = { home:'M3 10 12 3l9 7v11h-6v-7H9v7H3Z', chart:'M4 20V12m8 8V4m8 16V8', book:'M5 3h14v18H5zM8 8h8M8 12h8M8 16h5', database:'M4 6c0-5 16-5 16 0s-16 5-16 0Zm0 0v12c0 5 16 5 16 0V6M4 12c0 5 16 5 16 0', arrow:'m9 5 7 7-7 7', plus:'M12 5v14M5 12h14', save:'M6 3h12v18l-6-4-6 4Z', close:'m6 6 12 12M6 18 18 6', download:'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4', search:'M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm5-2 6 6', spark:'m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z', crown:'m3 6 4 5 5-8 5 8 4-5-2 14H5Z', moon:'M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z', check:'m5 12 4 4L19 6', info:'M12 11v6m0-10v1M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', external:'M14 3h7v7m0-7L10 14M10 3H3v18h18v-7', tune:'M4 7h16M4 17h16M8 3v8m8 2v8', trash:'M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7' };
-  return `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[name]||paths.spark}"/></svg>`;
-};
-const storageKey='nexus-worlds-v1';
-let storageOK=true, initial={};
-try { initial=JSON.parse(localStorage.getItem(storageKey)||'{}')||{}; } catch { storageOK=false; }
-let matches=FIXTURES.map(x=>({...x,scores:[...x.scores]}));
-for(const m of (Array.isArray(initial.custom)?initial.custom.slice(0,30).map(validateMatch).filter(Boolean):[])) {
-  const index=matches.findIndex(x=>x.id===m.id);
-  if(index>=0) matches[index]=m; else matches.push(m);
-}
-const state={ view:'home',stage:'all',search:'',selected:matches[0].id, tab:'pro', preset:'balanced',market:'winner',pick:0,total:3.5, odds:Object.create(null), scores:Object.create(null), saved:[], notes:Object.create(null) };
-if(Array.isArray(initial.saved)) state.saved=initial.saved.slice(0,100).filter(x=>x && typeof x.id==='string' && typeof x.label==='string' && typeof x.matchLabel==='string' && typeof x.marketLabel==='string' && Number.isFinite(x.odds) && x.odds>1 && x.odds<=1000 && (x.probability===null || (Number.isFinite(x.probability)&&x.probability>=0&&x.probability<=1))).map(x=>({id:x.id.slice(0,100),label:x.label.slice(0,120),matchLabel:x.matchLabel.slice(0,120),marketLabel:x.marketLabel.slice(0,80),odds:x.odds,probability:x.probability,created:String(x.created||'').slice(0,40),note:String(x.note||'').slice(0,1000)}));
-if(initial.notes && typeof initial.notes==='object') for(const [id,note] of Object.entries(initial.notes).slice(0,100)) {
-  if(matches.some(m=>m.id===id) && note && typeof note==='object') state.notes[id]={author:String(note.author||'').slice(0,80),url:safeURL(note.url),text:String(note.text||'').slice(0,3000)};
-}
-function safeURL(v) { try { const u=new URL(v); return ['http:','https:'].includes(u.protocol)?u.href:''; } catch { return ''; } }
-function persist() {
-  try { localStorage.setItem(storageKey,JSON.stringify({version:1,custom:matches.filter(m=>m.custom),saved:state.saved,notes:state.notes})); storageOK=true; }
-  catch { storageOK=false; toast('本機儲存不可用，請匯出備份；目前資料僅保留至關閉頁面。'); }
-}
+import {SOURCES,PLAYERS,THEMES} from './data.mjs';
+import {forecast,mysticForecast} from './model.mjs';
+import {STAGES,timeTW,dailyWindow,predictionAvailability,validateSnapshot} from './schedule.mjs';
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pct=p=>`${(p*100).toFixed(1)}%`;
+const icon=name=>`<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${({home:'M3 10 12 3l9 7v11h-6v-7H9v7H3Z',chart:'M4 20V12m8 8V4m8 16V8',book:'M5 3h14v18H5zM8 8h8M8 12h8',database:'M4 6c0-5 16-5 16 0s-16 5-16 0Zm0 0v12c0 5 16 5 16 0V6M4 12c0 5 16 5 16 0',arrow:'m9 5 7 7-7 7',save:'M6 3h12v18l-6-4-6 4Z',spark:'m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z',info:'M12 11v6m0-10v1M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',player:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-3c0-6 16-6 16 0v3',external:'M14 3h7v7m0-7L10 14M10 3H3v18h18v-7',download:'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4',search:'M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm5-2 6 6'})[name]||'M5 12h14'}"/></svg>`;
+const KEY='nexus-worlds-v2';
+let snapshot=null,crawlStatus=null,loadError='',storageOK=true,loading=true;
+let stored={};try{stored=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch{storageOK=false;}
+const state={view:'home',stage:'all',search:'',page:0,selected:'',tab:'pro',theme:'underdog',adjustments:Object.create(null),saved:[],notes:Object.create(null)};
+const matches=()=>snapshot?.matches||[];
+const current=()=>matches().find(m=>m.id===state.selected)||matches()[0];
+const pro=m=>m?forecast(m,snapshot.ratings,state.adjustments[m.id]||0):null;
+const label=m=>m.teams.map(t=>t.code).join(' vs ');
+const statusLabels={stale:'對局資料待更新',ready:'尚未開賽',tbd:'對手待定',live:'進行中',completed:'已結束',pending:'待更新賽況'};
+const color=(i)=>i?'#b7a6f7':'#c6f56c';
+const sourceLink=(url,text)=>`<a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(text)} ${icon('external')}</a>`;
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({version:2,saved:state.saved,notes:state.notes}));storageOK=true;}catch{storageOK=false;toast('本機儲存受限，請匯出觀察備份。');}}
 let toastTimer;
-function toast(message) { $('#toast').textContent=message; $('#toast').classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),3800); }
-function current() { return matches.find(m=>m.id===state.selected)||matches[0]; }
-function analysis() { const m=current(); return markets(m,state.scores[m.id]||m.scores,state.preset,state.total); }
-function currentMarket() { return analysis().list.find(m=>m.key===state.market)||analysis().list[0]; }
-function oddsKey(){ return `${current().id}-${state.market}-${state.market==='total'?state.total:''}`; }
-function marketOdds() { const market=currentMarket(); return state.odds[oddsKey()] || (market.key==='winner'?[...current().odds]:market.options.map(()=>1.9)); }
-function route(view,id) {
-  state.view=view;
-  if(id) {state.selected=id;state.market='winner';state.pick=0;state.total=current().bestOf===5?3.5:2.5;}
-  history.replaceState(null,'',view==='home'?'#overview':view==='matches'?`#match=${encodeURIComponent(state.selected)}`:`#${view}`);
-  render(); window.scrollTo({top:0,behavior:'smooth'});
+function toast(text){$('#toast').textContent=text;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),3500);}
+function hydrate(){
+ const ids=new Set(matches().map(m=>m.id));
+ if(Array.isArray(stored.saved))state.saved=[...new Set(stored.saved.filter(id=>typeof id==='string'&&ids.has(id)))].slice(0,100);
+ if(stored.notes&&typeof stored.notes==='object')for(const [id,note]of Object.entries(stored.notes).slice(0,100))if(ids.has(id)&&typeof note==='string')state.notes[id]=note.slice(0,3000);
+ stored={};
 }
-function shell() {
-  return `<aside class="sidebar"><a class="brand" href="#overview" data-nav="home" aria-label="NEXUS 首頁"><span class="brand-mark">N</span><b>NEXUS</b><small>賽局研究所</small></a>
-  <nav aria-label="主選單">${[['home','home','總覽'],['matches','chart','賽事預測'],['watchlist','book','我的觀察'],['methods','database','資料與方法']].map(([v,i,t])=>`<button class="nav-item ${state.view===v?'active':''}" data-nav="${v}">${icon(i)}<span>${t}</span>${v==='watchlist'&&state.saved.length?`<em>${state.saved.length}</em>`:''}</button>`).join('')}</nav>
-  <div class="local-box">${icon('database')}<div><b>${storageOK?'本機儲存空間':'儲存受限'}</b><small>${state.saved.length} 筆觀察 · ${storageOK?'僅此瀏覽器':'請匯出備份'}</small></div><i class="status-dot"></i></div></aside>
-  <div class="workspace"><header class="topbar"><a href="#overview" data-nav="home" class="mobile-brand">N<span>NEXUS</span></a><div class="event-brand"><strong>Worlds 2026</strong><span>WORLD CHAMPIONSHIP</span></div><button class="top-method" data-nav="methods">${icon('database')}<span>資料與方法</span></button><div class="mode"><span><i class="status-dot"></i> 示範資料模式</span><small>非即時賽程／賠率</small></div></header><main id="main" tabindex="-1">${state.view==='home'?home():state.view==='matches'?matchView():state.view==='watchlist'?watchlist():methods()}</main>
-  <footer><span>NEXUS © 2026 · 獨立賽事研究工具</span><span>未滿 18 歲不得購買運動彩券 · 理性觀賽，量力而為</span></footer></div>`;
+function freshness(){
+ if(loadError&&snapshot)return {text:'本機連線中斷 · 保留上次資料',bad:true};
+ if(!snapshot)return {text:loading?'正在載入官方賽程':'尚無可用賽程',bad:!loading};
+ const stale=dailyWindow(new Date(snapshot.fetchedAt))!==dailyWindow()||Date.now()-Date.parse(snapshot.fetchedAt)>26*3600000;
+ return {text:crawlStatus?.ok===false?'更新失敗 · 保留上次資料':stale?'資料待更新':'每日賽程已同步',bad:stale||crawlStatus?.ok===false};
 }
-function title(heading,sub,action='') { return `<div class="page-title"><div><h1>${heading}</h1><p>${sub}</p></div>${action}</div>`; }
-function notice() { return `<div class="data-notice">${icon('info')}<span>情境對戰與盤口均為示範，非官方賽程、實際賠率或真人分析師意見。玩法依台灣運彩分類，開賣狀態未確認。</span></div>`; }
-function home() {
-  return `${title('看懂賽局，再相信直覺。','結合專業判讀與歷史玄學，從兩種視角，探索 2026 世界大賽。')}
-  <section class="hero" aria-label="2026 英雄聯盟世界賽"><div class="hero-content"><h2>WORLDS 2026</h2><p><span></span>專業判讀 <i>×</i> 歷史玄學</p><button class="button primary" data-nav="matches">探索賽事 ${icon('arrow')}</button></div></section>
-  ${notice()}<div class="dashboard"><div class="main-column"><section class="panel radar">${radar(3)}</section><section class="panel preview"><div class="section-head"><h2><i></i>賽事分析預覽</h2><div class="segmented"><button data-preview="pro" class="${state.tab!=='mystic'?'selected':''}">專業分析</button><button data-preview="mystic" class="${state.tab==='mystic'?'selected':''}">玄學觀察</button></div></div>${state.tab==='mystic'?storyMini():preview()}<button class="text-button full-analysis" data-match="${esc(current().id)}">查看 ${esc(current().a)} vs ${esc(current().b)} 完整分析 ${icon('arrow')}</button></section></div>
-  <aside class="right-column">${perspective()}${savedMini()}<div class="schedule-mini"><span class="tiny-label">官方賽事節點</span><h3>世界賽的下一站</h3><p><i class="status-dot"></i>入圍賽 → 瑞士輪 → 淘汰賽</p><small>美國當地 10/15–11/14<br>台灣時間總決賽：11/15 03:00</small><button class="text-button" data-nav="methods">時程與資料來源 ${icon('arrow')}</button></div></aside></div>`;
-}
-function radar(limit=100) {
-  const filtered=matches.filter(m=>(state.stage==='all'||m.stage===state.stage)&&`${m.a} ${m.b} ${m.nameA} ${m.nameB}`.toLowerCase().includes(state.search.toLowerCase()));
-  return `<div class="section-head"><h2><i></i>賽事雷達 <span class="count">${filtered.length}</span></h2><div class="segmented stage-filters" aria-label="賽事階段">${Object.entries(STAGES).map(([k,v])=>`<button data-stage="${k}" class="${state.stage===k?'selected':''}" aria-pressed="${state.stage===k}">${v}</button>`).join('')}</div></div>
-  ${state.view==='matches'?`<div class="radar-tools"><label class="search">${icon('search')}<input id="search" aria-label="搜尋隊伍" placeholder="搜尋隊伍，例如 T1、C9" value="${esc(state.search)}"></label><button class="button secondary" id="new-match">${icon('plus')}自訂對戰</button></div>`:''}
-  <div class="match-list">${filtered.slice(0,limit).map(m=>matchRow(m)).join('')||`<div class="empty">${icon('search')}<h3>這個篩選還沒有對戰</h3><p>換個階段或隊名，重新看看賽局。</p><button class="text-button" id="clear-filters">清除篩選</button></div>`}</div>`;
-}
-function matchRow(m) {
-  return `<article class="match-row ${state.view==='matches'&&state.selected===m.id?'current':''}"><div class="match-meta"><small>情境 ${m.custom?'自訂':'示範'}</small><strong>時間待確認</strong><span>${STAGES[m.stage]} · BO${m.bestOf}</span></div><div class="teams"><div class="team"><span class="team-mark" style="--team:${m.colorA}">${esc(m.a)}</span><div><b>${esc(m.a)}</b><small>${esc(m.nameA)}</small></div></div><span class="versus">VS</span><div class="team"><span class="team-mark" style="--team:${m.colorB}">${esc(m.b)}</span><div><b>${esc(m.b)}</b><small>${esc(m.nameB)}</small></div></div></div><div class="row-odds"><small>示範不讓分</small><div>${m.odds.map((o,i)=>`<button class="odds-pill" data-odds-match="${esc(m.id)}" data-side="${i}" aria-label="分析 ${esc(i?m.b:m.a)}，示範賠率 ${o.toFixed(2)}">${o.toFixed(2)}</button>`).join('')}</div></div><button class="open-match" data-match="${esc(m.id)}" aria-label="查看 ${esc(m.a)} 對 ${esc(m.b)} 分析">${icon('arrow')}</button></article>`;
-}
-function preview() {
-  const m=current(),scores=state.scores[m.id]||m.scores;
-  return `<p class="small muted preview-context">${esc(m.a)} vs ${esc(m.b)} · 相對評分示範，非戰績百分比</p><div class="preview-bars">${FACTORS.slice(0,3).map(([key,label,desc],i)=>`<div class="preview-row">${icon(i===0?'chart':i===1?'spark':'crown')}<b>${label}</b><span>${desc.split('、')[0]}</span><div class="bar-pair"><i style="width:${scores[i]}%"></i><i style="width:${100-scores[i]}%"></i></div><div><b class="lime">${scores[i]}</b><small class="purple">${100-scores[i]}</small></div></div>`).join('')}</div>`;
-}
-function storyMini() { const s=STORIES[0]; return `<div class="story-mini">${icon('spark')}<div><small class="purple">${s.tag}</small><h3>${s.title}</h3><p>${s.text}</p><small>歷史敘事 · 不計入模型勝率</small></div></div>`; }
-function perspective() {
-  return `<section class="perspective panel"><div class="section-head"><h2><i></i>理性與直覺</h2><span class="small muted">雙軌，才看得完整</span></div><div class="perspective-visual"><div><small class="lime">專業視角</small><strong class="lime">數據</strong><span>可調整因子</span></div><div class="ring"><span>×</span></div><div><small class="purple">玄學觀察</small><strong class="purple">敘事</strong><span>歷史與偏見</span></div></div><p>一邊拆解比賽，一邊檢查直覺。<br>歷史故事不等於未來的勝率。</p><button class="perspective-link" data-focus="pro">${icon('chart')}<span><b>專業視角</b><small>評分因子、系列賽模型與盤口比較</small></span>${icon('arrow')}</button><button class="perspective-link mystic" data-focus="mystic">${icon('spark')}<span><b>玄學觀察</b><small>經典劇本、歷史案例與反向思考</small></span>${icon('arrow')}</button></section>`;
-}
-function savedMini() { return `<section class="panel saved-mini"><div class="section-head"><h2><i></i>我的觀察 <span class="count">${state.saved.length}</span></h2><button class="text-button" data-nav="watchlist">查看全部 ${icon('arrow')}</button></div>${state.saved.length?state.saved.slice(0,2).map(x=>`<div class="saved-peek"><b>${esc(x.label)}</b><small>${esc(x.matchLabel)} · ${esc(x.marketLabel)}</small></div>`).join(''):`<div class="empty small">${icon('save')}<p>還沒有存下任何觀察</p><small>在賽事分析中，留下你的判斷與想法。</small></div>`}</section>`; }
-function matchView() {
-  const m=current();
-  return `${title('賽局，從這裡拆解。','選一場情境對戰，調整分析假設，對照台灣運彩玩法。')}${notice()}<section class="panel radar">${radar()}</section>
-  <section class="detail" id="analysis"><div class="detail-heading"><div><span class="tiny-label">MATCH LAB / 情境實驗室</span><h2><span style="color:${m.colorA}">${esc(m.a)}</span> <em>vs</em> <span style="color:${m.colorB}">${esc(m.b)}</span></h2><p>${esc(m.nameA)} × ${esc(m.nameB)} · ${STAGES[m.stage]} · BO${m.bestOf} · 非官方對戰</p></div><button class="button secondary" id="edit-match">${icon('tune')}編輯對戰</button></div>
-  <div class="analysis-tabs" role="tablist" aria-label="分析視角">${[['pro','chart','專業分析'],['mystic','spark','玄學觀察'],['notes','book','分析筆記']].map(([k,i,t])=>`<button role="tab" id="tab-${k}" aria-controls="analysis-panel" tabindex="${state.tab===k?0:-1}" aria-selected="${state.tab===k}" class="${state.tab===k?'active':''} ${k==='mystic'?'purple-tab':''}" data-tab="${k}">${icon(i)}${t}</button>`).join('')}</div><div class="analysis-grid"><section class="panel analysis-content" id="analysis-panel" aria-labelledby="tab-${state.tab}" role="tabpanel" tabindex="0">${state.tab==='pro'?proPanel():state.tab==='mystic'?mysticPanel():notesPanel()}</section><aside>${marketPanel()}</aside></div></section>`;
-}
-function proPanel() {
-  const m=current(),model=analysis(),scores=state.scores[m.id]||m.scores;
-  return `<div class="section-head"><div><span class="tiny-label lime">PRO ANALYSIS</span><h3>每一個判斷，都有依據。</h3></div><label class="sr-only" for="preset">分析流派</label><select id="preset">${Object.entries(PRESETS).map(([k,v])=>`<option value="${k}" ${state.preset===k?'selected':''}>${v.label}</option>`).join('')}</select></div>
-  <div class="probability-head"><div><span>${esc(m.a)} 系列賽模型值</span><strong class="lime" id="win-value">${pct(model.win)}</strong></div><div class="opponent-prob"><span>${esc(m.b)}</span><strong id="lose-value">${pct(1-model.win)}</strong></div></div><div class="probability-bar"><i id="win-bar" style="width:${model.win*100}%"></i></div><p class="small muted">由示範評分推導，未經回測或校準；不是真實預測勝率。</p>
-  <div class="factor-legend"><span>← 偏向 ${esc(m.b)}</span><span>50 = 均衡</span><span>偏向 ${esc(m.a)} →</span></div><div class="factors">${FACTORS.map(([key,label,desc],i)=>`<label class="factor" for="factor-${i}"><div><b>${label}</b><small>${desc}</small></div><input type="range" id="factor-${i}" data-factor="${i}" min="0" max="100" value="${scores[i]}" aria-valuetext="${esc(m.a)} 相對評分 ${scores[i]}，50 為均衡"><output id="factor-value-${i}">${scores[i]}</output></label>`).join('')}</div>
-  <div class="factor-footer"><small>手動假設，非實測戰績。評分／賠率調整限本次頁面。</small><button class="text-button" id="reset-scores">重設評分</button></div><details class="method-detail"><summary>這個模型怎麼算？</summary><p>各因子按流派加權，經 logistic 轉換為單局參數 p。假設各局獨立且 p 固定，枚舉 BO${m.bestOf} 終局比數，計算系列勝負、讓局與總局數。模型未納入選邊、BP、選手異動或局間相關性。</p><p>單局參數：<b id="map-value">${pct(model.p)}</b>。首殺／首龍等事件缺少獨立數據，因此不產生假機率。</p></details><div class="analyst-note">${icon('book')}<p>有分析師的觀點？在「分析筆記」記下作者、原文連結與判斷，與模型並排檢視。本站未串接真人分析師預測。</p><button class="text-button" data-tab="notes">新增筆記 ${icon('arrow')}</button></div>`;
-}
-function mysticPanel() {
-  return `<span class="tiny-label purple">THE OTHER PERSPECTIVE</span><h3>有些劇本，你好像看過。</h3><p class="muted">把歷史當作觀察視角，也把偏見放上檯面。<br>玄學不提供勝率，不影響右側的專業模型。</p><div class="stories">${STORIES.map(s=>`<article class="story"><div class="story-top">${icon(s.icon)}<span>${s.tag}</span><label><input type="checkbox" data-story="${s.id}"> 加入我的敘事</label></div><h4>${s.title}</h4><p>${s.text}</p><span class="story-target">${s.target}</span><details><summary>先看反例與限制</summary><p>${s.limitation}</p></details>${s.source!==null?`<a href="${SOURCES[s.source].url}" target="_blank" rel="noopener noreferrer" class="source-link">歷史出處 ${icon('external')}</a>`:''}</article>`).join('')}</div><p class="small muted">勾選的敘事會隨下一次加入觀察保存；不是經統計驗證的投注訊號。</p>`;
-}
-function notesPanel() {
-  const n=state.notes[current().id]||{};
-  return `<span class="tiny-label lime">RESEARCH NOTEBOOK</span><h3>留下觀點，也留下出處。</h3><p class="muted">整理真人分析師預測或自己的判讀，資料只留在這個瀏覽器。</p><form id="note-form" class="form-stack"><label>作者／分析師<input name="author" maxlength="80" placeholder="例如：自己的觀察，或原作者名稱" value="${esc(n.author||'')}"></label><label>原始來源連結<input type="url" name="url" maxlength="2000" placeholder="https://…" value="${esc(n.url||'')}"></label><label>預測方向與理由<textarea name="text" rows="7" maxlength="3000" placeholder="記下投注玩法、方向、支持證據與可能失準的情境。">${esc(n.text||'')}</textarea></label><button class="button primary" type="submit">${icon('save')}儲存分析筆記</button></form>${n.url?`<a class="source-link" href="${esc(safeURL(n.url))}" target="_blank" rel="noopener noreferrer">開啟原始分析 ${icon('external')}</a>`:''}`;
-}
-function marketPanel() {
-  const m=current(),model=analysis(),market=currentMarket(),odds=marketOdds(),fair=implied(odds);
-  return `<section class="panel market-panel"><span class="tiny-label">TAIWAN SPORTS LOTTERY</span><h3>對照盤口，看清差異。</h3><p class="small muted">以下賠率為可編輯的情境假設。<br>當場是否開賣：<b class="amber">未確認</b></p><label for="market">研究玩法</label><select id="market">${model.list.map(x=>`<option value="${x.key}" ${state.market===x.key?'selected':''}>${x.label}</option>`).join('')}</select>${state.market==='total'&&m.bestOf===5?`<label for="total-line">總局數界線</label><select id="total-line"><option value="3.5" ${state.total===3.5?'selected':''}>3.5 局</option><option value="4.5" ${state.total===4.5?'selected':''}>4.5 局</option></select>`:''}
-  <div class="market-options">${market.options.map((o,i)=>`<div class="market-option ${state.pick===i?'picked':''}"><button class="pick-button" data-pick="${i}" aria-pressed="${state.pick===i}"><span class="radio-dot"></span><b>${esc(o.label)}</b>${state.pick===i?icon('check'):''}</button><div class="odds-edit"><label for="odd-${i}">情境賠率</label><input id="odd-${i}" data-odd="${i}" type="number" min="1.01" max="1000" step="0.01" value="${odds[i].toFixed(2)}" inputmode="decimal"></div><div class="market-stats"><span>模型值 <b class="lime model-prob" data-option="${i}">${pct(o.p)}</b></span><span>損益平衡 <b class="break-even" data-option="${i}">${pct(fair?.raw[i])}</b></span></div></div>`).join('')}</div>
-  <div id="market-summary">${marketSummary(market,odds)}</div><button class="button primary save-pick" id="save-pick">${icon('save')}加入我的觀察</button><p class="small muted">僅保存研究紀錄，不會送出投注。<br>同場只保留一個方向，避免當作同場過關。</p><a class="source-link" href="https://www.sportslottery.com.tw/" target="_blank" rel="noopener noreferrer">前往台灣運彩核對 ${icon('external')}</a></section>`;
-}
-function marketSummary(market,odds) {
-  const fair=implied(odds);
-  if(!fair) return '<p class="inline-warning">請輸入大於 1、且不超過 1000 的完整賠率。</p>';
-  if(market.unavailable) return `<div class="market-insight"><b>事件數據不足，暫不估算</b><p>首殺、首龍、首塔與首巴龍不能由系列勝率推算。你仍可記錄自己的方向。</p></div>`;
-  const p=market.options[state.pick]?.p,delta=(p-fair.normalized[state.pick])*100;
-  return `<div class="market-insight"><div><span>模型與去水機率差</span><b class="${delta>=0?'lime':'purple'}">${delta>=0?'+':''}${delta.toFixed(1)}<small> pp</small></b></div><p>去水機率 ${pct(fair.normalized[state.pick])}；總隱含機率 ${(100*(1+fair.margin)).toFixed(1)}%。差值只反映目前假設，不表示獲利機會。</p></div>`;
-}
-function watchlist() {
-  return `${title('每個判斷，都值得回看。','收藏研究方向、保留當時假設。只存在本機，沒有實際投注。',`<button class="button secondary" id="export">${icon('download')}匯出備份</button>`)}<div class="watch-toolbar"><span>${state.saved.length} 筆觀察 · 不以示範資料計算命中率</span><label class="button secondary import-label">匯入備份<input type="file" id="import" accept="application/json,.json"></label></div>${state.saved.length?`<div class="watch-grid">${state.saved.map(x=>`<article class="panel watch-card"><div class="section-head"><span class="tiny-label">${esc(x.marketLabel)}</span><button class="icon-button" data-remove="${esc(x.id)}" aria-label="移除 ${esc(x.label)}">${icon('trash')}</button></div><h2>${esc(x.label)}</h2><p>${esc(x.matchLabel)}</p><div class="watch-metrics"><span>情境賠率<b>${x.odds.toFixed(2)}</b></span><span>當時模型值<b class="lime">${pct(x.probability)}</b></span></div>${x.note?`<p class="watch-note">${esc(x.note)}</p>`:''}<small class="muted">${esc(x.created)} · 情境研究紀錄</small></article>`).join('')}</div>`:`<div class="panel empty big-empty">${icon('save')}<h2>把你的第一個判斷留下來。</h2><p>從賽事選擇玩法與方向，加入觀察。<br>你可以隨時匯出備份，或重新比較當時的假設。</p><button class="button primary" data-nav="matches">探索賽事 ${icon('arrow')}</button></div>`}`;
-}
-function methods() {
-  return `${title('有來源，才有判斷。','資料的邊界、模型的假設與世界賽的時間，一次看清楚。')}<div class="methods-layout"><section><div class="panel method-card"><span class="tiny-label lime">DATA TRANSPARENCY</span><h2>目前是研究工具，資料由你掌握。</h2><p>官方賽事階段與玩法分類已於 2026/10/15 查閱。對戰組合、因子、盤口全部是示範，未連接即時資料服務；不包含任何真人分析師共識或經驗證的勝率。</p><p>想研究真實對戰，可在「賽事預測」新增／編輯隊伍與賽制，再手動輸入當場盤口、因子及有出處的分析筆記。輸入仍屬使用者資料，本站不會自動認證為官方資訊。</p></div><div class="source-list">${SOURCES.map((s,i)=>`<a class="source-row" href="${s.url}" target="_blank" rel="noopener noreferrer"><span class="source-number">0${i+1}</span><div><h3>${s.title}</h3><small>${s.publisher}</small><p>${s.detail}</p></div>${icon('external')}</a>`).join('')}</div><div class="panel method-card"><h2>模型能說什麼？</h2><p>五個相對評分（0–100；50 均衡）依分析流派加權得到 s，單局參數 p = 1 / (1 + exp(−(s−50)/24))，限制於 0.1–0.9。枚舉先取得多數勝局的終局比數，再加總對應玩法的機率。</p><p>模型假設每局獨立、單局實力固定；未針對 2026 賽事訓練，沒有校準或回測。總局數讓分僅支援左隊 −1.5／右隊 +1.5；大小支援 BO3 的 2.5 局及 BO5 的 3.5／4.5 局。這不是擊殺數大小或讓分。</p><p>盤口損益平衡機率 = 1 / 十進位賠率；去水機率 = 各選項隱含機率 / 總隱含機率。後者須輸入同一玩法的完整互斥選項。差值是模型假設與盤口的比較，不是獲利保證。</p><p>首殺／首龍／首塔／首巴龍僅提供方向紀錄，不以系列賽勝率代替事件數據。玄學與筆記不會改變專業模型。</p></div></section><aside><section class="panel method-card timeline"><span class="tiny-label">WORLDS 2026</span><h2>賽事時間軸</h2><p class="small muted">日期依美國賽場當地時間；<br>台灣時間另列，均為 UTC+8。</p>${[['01','入圍賽','10/15–10/18 · 洛杉磯','BO5 · 四隊雙敗淘汰','台灣首場：10/16 02:00'],['02','瑞士輪','10/23–10/31 · Allen','BO1／BO3 · 三勝晉級','台灣首日：10/24 01:00'],['03','淘汰賽','11/03–11/14 · Allen／紐約','BO5 · 八強至總決賽','台灣總決賽：11/15 03:00']].map(([n,t,d,f,z])=>`<div class="timeline-item"><span>${n}</span><div><h3>${t}</h3><p>${d}</p><small>${f}<br>${z}</small></div></div>`).join('')}</section><section class="panel method-card"><h3>本機，代表什麼？</h3><p>不需帳號、不需 API Key。網站載入後不會傳送筆記與觀察資料。它們保存在此網址的 localStorage，換瀏覽器／連接埠或清除資料後不會保留，請定期匯出。</p><p>本工具不隸屬 Riot Games、任何戰隊或台灣運彩。無實際購券、付款或過關送單功能。</p></section></aside></div>`;
-}
-function render() { $('#app').innerHTML=shell(); }
-function refreshNumbers() {
-  const model=analysis(),market=currentMarket(),odds=marketOdds();
-  if($('#win-value')) {$('#win-value').textContent=pct(model.win);$('#lose-value').textContent=pct(1-model.win);$('#win-bar').style.width=`${model.win*100}%`;$('#map-value').textContent=pct(model.p);}
-  document.querySelectorAll('.model-prob').forEach(e=>e.textContent=pct(market.options[Number(e.dataset.option)]?.p));
-  const fair=implied(odds);
-  document.querySelectorAll('.break-even').forEach(e=>e.textContent=pct(fair?.raw[Number(e.dataset.option)]));
-  if($('#market-summary')) $('#market-summary').innerHTML=marketSummary(market,odds);
-}
-function openEditor(edit=false) {
-  const m=edit?current():{a:'',b:'',bestOf:5,stage:'playin'};
-  $('#editor').innerHTML=`<form id="match-form" class="form-stack"><div class="section-head"><div><span class="tiny-label lime">MATCH SETUP</span><h2 id="editor-title">${edit?'編輯':'新增'}情境對戰</h2></div><button type="button" class="icon-button" id="close-editor" aria-label="關閉">${icon('close')}</button></div><p class="small muted">輸入你要研究的隊伍，之後再調整評分與盤口。自訂資料仍標記為情境，不會自動變成官方賽程。</p><label>左方隊伍<input name="a" value="${esc(m.a)}" required maxlength="30" placeholder="例如 T1"></label><label>右方隊伍<input name="b" value="${esc(m.b)}" required maxlength="30" placeholder="例如 BLG"></label><div class="form-pair"><label>賽制<select name="bestOf">${[1,3,5].map(n=>`<option value="${n}" ${m.bestOf===n?'selected':''}>BO${n}</option>`).join('')}</select></label><label>階段<select name="stage">${Object.entries(STAGES).filter(([k])=>k!=='all').map(([k,v])=>`<option value="${k}" ${m.stage===k?'selected':''}>${v}</option>`).join('')}</select></label></div><input type="hidden" name="edit" value="${edit?'yes':'no'}"><button type="submit" class="button primary">${icon('check')}${edit?'套用變更':'建立對戰'}</button></form>`;
-  if(edit && m.custom) $('#match-form').insertAdjacentHTML('beforeend',`<button type="button" class="text-button" id="remove-custom">${FIXTURES.some(x=>x.id===m.id)?'還原示範對戰':'移除此自訂對戰'}</button>`);
-  $('#editor').showModal();
-}
-function savePick() {
-  const m=current(),market=currentMarket(),odds=marketOdds();
-  if(!implied(odds)) {toast('請先修正賠率，必須大於 1 且不超過 1000。');return;}
-  const o=market.options[state.pick];
-  const stories=[...document.querySelectorAll('[data-story]:checked')].map(e=>STORIES.find(s=>s.id===e.dataset.story)?.title).filter(Boolean);
-  const n=state.notes[m.id],note=[stories.length?`玄學觀察：${stories.join('、')}`:'',n?.text?`${n.author||'個人筆記'}：${n.text}`:''].filter(Boolean).join('\n');
-  const saved={id:m.id,matchLabel:`${m.a} vs ${m.b}`,marketLabel:market.label,label:o.label,odds:odds[state.pick],probability:o.p,created:new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',dateStyle:'medium',timeStyle:'short'}).format(new Date()),note:note.slice(0,1000)};
-  const exists=state.saved.some(s=>s.id===m.id); state.saved=[saved,...state.saved.filter(s=>s.id!==m.id)].slice(0,100);persist();render();toast(exists?'已更新這場的觀察方向（同場保留一筆）。':'已加入我的觀察，儲存在本機。');
-}
-function exportData() {
-  const backup={version:1,custom:matches.filter(m=>m.custom),saved:state.saved,notes:state.notes};
-  const url=URL.createObjectURL(new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}));
-  const a=document.createElement('a');a.href=url;a.download='nexus-worlds-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('備份已匯出。');
-}
-async function importData(file) {
-  if(!file) return;
-  if(file.size>500000) {toast('檔案過大，請選擇小於 500 KB 的 NEXUS 備份。');return;}
-  try {
-    const data=JSON.parse(await file.text());
-    if(data.version!==1||!Array.isArray(data.saved)||data.saved.length>100||!Array.isArray(data.custom)||data.custom.length>30||!data.notes||typeof data.notes!=='object') throw Error();
-    const custom=data.custom.map(validateMatch);if(custom.some(x=>!x)) throw Error();
-    if(matches.filter(m=>m.custom).length+custom.length>30) {toast('合併後會超過 30 場自訂對戰；未匯入任何資料。');return;}
-    const validSaved=data.saved.every(x=>x&&typeof x.id==='string'&&x.id.length<=100&&['label','matchLabel','marketLabel','created','note'].every(k=>typeof x[k]==='string'&&x[k].length<=1000)&&Number.isFinite(x.odds)&&x.odds>1&&x.odds<=1000&&(x.probability===null||(Number.isFinite(x.probability)&&x.probability>=0&&x.probability<=1)));
-    if(!validSaved) throw Error();
-    const newCount=data.saved.filter(x=>data.custom.some(m=>m.id===x.id)||!state.saved.some(s=>s.id===x.id)).length;
-    if(state.saved.length+newCount>100) {toast('合併後會超過 100 筆觀察；未匯入任何資料。');return;}
-    // Merge imports without replacing existing records. Remap custom IDs and their notes.
-    const idMap=new Map();
-    for(const m of custom) {const old=m.id;m.id=`custom-${crypto.randomUUID()}`;idMap.set(old,m.id);if(matches.filter(x=>x.custom).length<30)matches.push(m);}
-    for(const row of data.saved) {const s={id:idMap.get(row.id)||row.id,label:row.label,matchLabel:row.matchLabel,marketLabel:row.marketLabel,created:row.created,note:row.note,odds:row.odds,probability:row.probability};if(!state.saved.some(x=>x.id===s.id)&&state.saved.length<100)state.saved.push(s);}
-    for(const [old,n] of Object.entries(data.notes).slice(0,100)) {const id=idMap.get(old)||old;if(matches.some(m=>m.id===id)&&!state.notes[id]&&n&&typeof n==='object') state.notes[id]={author:String(n.author||'').slice(0,80),url:safeURL(n.url),text:String(n.text||'').slice(0,3000)};}
-    persist();render();toast('已合併備份，既有觀察與筆記保留。');
-  } catch {toast('備份格式不正確，未匯入資料。');}
-}
-document.addEventListener('click',e=>{
-  const b=e.target.closest('button,a[data-nav]');if(!b)return;
-  if(b.dataset.nav) {e.preventDefault();route(b.dataset.nav);}
-  else if(b.dataset.stage) {state.stage=b.dataset.stage;render();}
-  else if(b.dataset.match) {route('matches',b.dataset.match);$('#analysis')?.scrollIntoView({behavior:'smooth',block:'start'});}
-  else if(b.dataset.oddsMatch) {route('matches',b.dataset.oddsMatch);state.pick=Number(b.dataset.side);render();$('#analysis')?.scrollIntoView({behavior:'smooth'});}
-  else if(b.dataset.preview) {state.tab=b.dataset.preview;render();}
-  else if(b.dataset.focus) {state.tab=b.dataset.focus;route('matches');$('#analysis')?.scrollIntoView({behavior:'smooth'});}
-  else if(b.dataset.tab) {state.tab=b.dataset.tab;render();$(`#tab-${state.tab}`)?.focus({preventScroll:true});}
-  else if(b.dataset.pick!==undefined) {state.pick=Number(b.dataset.pick);const pos=window.scrollY;render();window.scrollTo(0,pos);}
-  else if(b.id==='clear-filters') {state.stage='all';state.search='';render();}
-  else if(b.id==='reset-scores') {delete state.scores[current().id];render();toast('已還原示範評分。');}
-  else if(b.id==='new-match') openEditor();
-  else if(b.id==='edit-match') openEditor(true);
-  else if(b.id==='close-editor') $('#editor').close();
-  else if(b.id==='remove-custom') {const m=current(),original=FIXTURES.find(x=>x.id===m.id);matches=original?matches.map(x=>x.id===m.id?{...original,scores:[...original.scores]}:x):matches.filter(x=>x.id!==m.id);if(!original){state.saved=state.saved.filter(x=>x.id!==m.id);delete state.notes[m.id];}delete state.scores[m.id];$('#editor').close();persist();route('matches',original?.id||matches[0].id);toast(original?'已還原示範對戰。':'已移除自訂對戰與相關觀察／筆記。');}
-  else if(b.id==='save-pick') savePick();
-  else if(b.id==='export') exportData();
-  else if(b.dataset.remove) {state.saved=state.saved.filter(x=>x.id!==b.dataset.remove);persist();render();toast('已移除觀察。');}
+function title(h,p,action=''){return `<div class="page-title"><div><h1>${h}</h1><p>${p}</p></div>${action}</div>`;}
+function notice(){return `<div class="data-notice">${icon('info')}<span>時間皆為台灣時間（UTC+8） · ${snapshot?`最後成功同步 ${timeTW(snapshot.fetchedAt)} · 已收錄 ${matches().length} 場官方對局${snapshot.coverage.hasMore?'，官方分頁尚有後續資料':''}`:'官方資料載入中'}。每日更新，非即時戰況。</span></div>`;}
+function shell(){const f=freshness();return `<aside class="sidebar"><a class="brand" href="#overview" data-nav="home" aria-label="NEXUS 首頁"><span class="brand-mark">N</span><b>NEXUS</b><small>賽局研究所</small></a><nav aria-label="主選單">${[['home','home','總覽'],['matches','chart','賽事預測'],['watchlist','book','我的觀察'],['methods','database','資料與方法']].map(([v,i,t])=>`<button class="nav-item ${state.view===v?'active':''}" data-nav="${v}" ${state.view===v?'aria-current="page"':''}>${icon(i)}<span>${t}</span>${v==='watchlist'&&state.saved.length?`<em>${state.saved.length}</em>`:''}</button>`).join('')}</nav><div class="local-box">${icon('database')}<div><b>${storageOK?'本機觀察筆記':'儲存受限'}</b><small>${state.saved.length} 場收藏 · 僅此瀏覽器</small></div></div></aside><div class="workspace"><header class="topbar"><a class="mobile-brand" href="#overview" data-nav="home">N<span>NEXUS</span></a><div class="event-brand"><strong>Worlds 2026</strong><span>WORLD CHAMPIONSHIP</span></div><button class="top-method" data-nav="methods">${icon('database')}資料與方法</button><div class="mode ${f.bad?'stale':''}"><span><i class="status-dot"></i>${f.text}</span><small>台灣時間每日 06:00 更新</small></div></header><main id="main" tabindex="-1">${loading?`<div class="empty big-empty"><h1>正在讀取賽程</h1><p>官方對戰、時間與戰力資料即將就位。</p></div>`:!snapshot?`<div class="empty big-empty"><h1>賽程暫時無法載入</h1><p>${esc(loadError)}</p><button class="button primary" id="retry">重新讀取</button></div>`:state.view==='home'?home():state.view==='matches'?matchView():state.view==='watchlist'?watchlist():methods()}</main><footer><span>NEXUS © 2026 · 獨立賽事預測研究</span><span>模型推估與主觀劇本，無獲利或命中保證 · 18+</span></footer></div>`;}
+function home(){const known=matches().find(m=>predictionAvailability(m)==='ready')||current();const f=pro(known);return `${title('看懂賽局，再相信直覺。','真實對戰 × 比分推演 × Key Player，讓每一個判斷有跡可循。')}<section class="hero" aria-label="2026 英雄聯盟世界賽"><div class="hero-content"><h2>WORLDS 2026</h2><p><span></span>專業判讀 <i>×</i> 歷史玄學</p><button class="button primary" data-match="${known.id}">探索賽事 ${icon('arrow')}</button></div></section>${notice()}<div class="dashboard"><div class="main-column"><section class="panel radar">${radar(4)}<button class="text-button" data-nav="matches">瀏覽全部 ${matches().length} 場官方對局 ${icon('arrow')}</button></section><section class="panel preview"><div class="section-head"><h2><i></i>今日焦點：${esc(label(known))}</h2></div>${f?scorePanel(known,f,true):unavailable(known)}<button class="text-button" data-match="${known.id}">查看完整對局分析 ${icon('arrow')}</button></section></div><aside class="right-column"><section class="panel perspective"><div class="section-head"><h2><i></i>兩種視角，一場賽局</h2><span class="small">保持獨立判讀</span></div><div class="perspective-visual"><div><strong class="lime">數據</strong><small>官方 Elo</small><span>推導系列賽比分</span></div><div class="ring"><span>×</span></div><div><strong class="purple">直覺</strong><small>歷史玄學</small><span>另寫一個觀賽劇本</span></div></div><p>模型有假設，故事有偏誤。把兩者放在一起對照，但不混成同一個機率。</p><button class="perspective-link" data-match="${known.id}" data-tab="players">${icon('player')}<span><b>Key Player 觀察</b><small>角色、對位與名單確認程度</small></span>${icon('arrow')}</button><button class="perspective-link mystic" data-match="${known.id}" data-tab="mystic">${icon('spark')}<span><b>這場的玄學劇本</b><small>黑馬、大賽記憶、氣勢延續</small></span>${icon('arrow')}</button></section><section class="panel saved-mini"><div class="section-head"><h2>我的觀察 <span class="count">${state.saved.length}</span></h2><button class="text-button" data-nav="watchlist">查看 ${icon('arrow')}</button></div><p class="muted small">收藏真實對局，留下你自己的比分判斷與賽後回顧。</p></section><div class="schedule-mini"><span class="tiny-label">DAILY SYNC</span><h3>對戰未定，就寫 TBD。</h3><p>保留官方排定的時間與 BO。</p><small>不自行填入尚未公布的隊伍；來源分頁尚未出現的場次也不預建。</small></div></aside></div>`;}
+function filtered(){return matches().filter(m=>(state.stage==='all'||m.stage===state.stage)&&`${label(m)} ${m.teams.map(t=>t.name).join(' ')}`.toLowerCase().includes(state.search.toLowerCase()));}
+function radar(limit=8){const list=filtered(),pages=Math.max(1,Math.ceil(list.length/limit));state.page=Math.min(state.page,pages-1);const offset=state.view==='home'?0:state.page*limit;return `<div class="section-head"><h2><i></i>賽事雷達 <span class="count">${list.length}</span></h2><div class="segmented stage-filters" aria-label="賽事階段">${Object.entries(STAGES).map(([k,v])=>`<button data-stage="${k}" class="${state.stage===k?'selected':''}" aria-pressed="${state.stage===k}">${v}</button>`).join('')}</div></div>${state.view==='matches'?`<div class="radar-tools"><label class="search">${icon('search')}<input id="search" aria-label="搜尋隊伍" placeholder="搜尋隊伍，例如 C9、KC 或 TBD" value="${esc(state.search)}"></label><span class="small muted">台灣時間 UTC+8</span></div>`:''}<div class="match-list">${list.slice(offset,offset+limit).map(matchRow).join('')||'<div class="empty"><h3>找不到符合的官方對局</h3><p>試試其他隊名或賽事階段。</p><button class="text-button" id="clear-filters">清除篩選</button></div>'}</div>${state.view==='matches'&&pages>1?`<div class="pagination"><button class="button secondary" data-page="${state.page-1}" ${!state.page?'disabled':''}>上一頁</button><span>${state.page+1} / ${pages} 頁</span><button class="button secondary" data-page="${state.page+1}" ${state.page===pages-1?'disabled':''}>下一頁</button></div>`:''}`;}
+function matchRow(m){const status=predictionAvailability(m),f=pro(m);return `<article class="match-row ${state.selected===m.id?'current':''}"><div class="match-meta"><small>${statusLabels[status]}</small><strong>${timeTW(m.startTime)}</strong><span>${STAGES[m.stage]} · BO${m.bestOf}</span></div><div class="teams">${m.teams.map((t,i)=>`${i?'<span class="versus">VS</span>':''}<div class="team"><span class="team-mark" style="--team:${color(i)}">${esc(t.code)}</span><div><b>${esc(t.code)}</b><small>${esc(t.name)}</small></div></div>`).join('')}</div><div class="row-prediction"><small>${status==='completed'?'官方結果':f?'模型比分':'預測狀態'}</small><b>${status==='completed'?m.teams.map(t=>t.wins??'—').join(' : '):f?f.top.length>1?'多組並列':`${f.top[0].a} : ${f.top[0].b}`:status==='tbd'?'等待對戰':statusLabels[status]}</b></div><button class="open-match" data-match="${m.id}" aria-label="查看 ${esc(label(m))} 分析">${icon('arrow')}</button></article>`;}
+function matchView(){const m=current();return `${title('賽事預測','只分析已公布的真實對局。先看數據，再用自己的觀察修正劇本。')}${notice()}<section class="panel radar">${radar()}</section><section class="detail" id="match-detail"><div class="detail-heading"><div><span class="tiny-label">${STAGES[m.stage]} · BO${m.bestOf} · ${timeTW(m.startTime)}（台灣時間）</span><h2>${esc(m.teams[0].code)} <em>vs</em> ${esc(m.teams[1].code)}</h2><p>${esc(m.teams[0].name)} × ${esc(m.teams[1].name)}</p><p class="muted small">官方最後確認 ${timeTW(m.observedAt)} · ${statusLabels[predictionAvailability(m)]}</p></div><button class="button secondary" data-save="${m.id}" aria-pressed="${state.saved.includes(m.id)}">${icon('save')}${state.saved.includes(m.id)?'已收藏':'收藏對局'}</button></div><div class="analysis-tabs" role="tablist" aria-label="對局分析">${[['pro','chart','綜合分析'],['players','player','Key Player'],['mystic','spark','玄學評估'],['notes','book','我的筆記']].map(([key,i,text])=>`<button role="tab" id="tab-${key}" aria-controls="analysis-panel" aria-selected="${state.tab===key}" tabindex="${state.tab===key?'0':'-1'}" data-tab="${key}" class="${state.tab===key?'active':''}">${icon(i)}${text}</button>`).join('')}</div><div id="analysis-panel" role="tabpanel" aria-labelledby="tab-${state.tab}">${state.tab==='pro'?professional(m):state.tab==='players'?players(m):state.tab==='mystic'?mystic(m):notes(m)}</div></section>`;}
+function unavailable(m){const status=predictionAvailability(m);const message={stale:'這場對局超過 26 小時未在官方來源中重新確認，暫停推估；保留已知時間供查閱。',tbd:'對手尚未公布。保留官方時間，待隊伍確定後才產生比分。',live:'比賽已開始。本站沒有即時比賽模型，暫停賽前推估。',completed:'比賽已結束，以官方結果顯示。',pending:'官方排定時間已過，賽況等待下次同步；暫停賽前推估。',ready:'尚無雙方完整的官方 Elo，暫不產生比分。'}[status];return `<div class="empty no-forecast">${icon('info')}<h3>${statusLabels[status]}</h3><p>${message}</p>${status==='completed'?`<strong class="final-score">${m.teams.map(t=>t.wins??'—').join(' : ')}</strong>`:''}${sourceLink(snapshot.source,'查看官方賽程')}</div>`;}
+function scorePanel(m,f,mini=false){const favorite=f.win===.5?'勢均力敵':m.teams[f.win>.5?0:1].code;return `<div class="score-hero"><div><span class="tiny-label">${f.adjustment?'你的情境比分':'模型最可能比分'}${f.top.length>1?' · 並列':''}</span><strong>${f.top.length>1?'並列':`${f.top[0].a} <em>:</em> ${f.top[0].b}`}</strong><small>${f.top.length>1?f.top.map(o=>`${o.a}:${o.b}`).join('／')+' · ':''}${esc(label(m))} · 單一比分機率 ${pct(f.top[0].p)}</small></div><div class="favorite"><span>系列賽傾向</span><b>${esc(favorite)}</b><small>${pct(Math.max(f.win,1-f.win))} 模型勝率</small></div></div><div class="win-bar" role="img" aria-label="${esc(m.teams[0].code)} 系列賽勝率 ${pct(f.win)}，${esc(m.teams[1].code)} ${pct(1-f.win)}"><i style="width:${f.win*100}%"></i></div><div class="bar-labels"><span>${esc(m.teams[0].code)} ${pct(f.win)}</span><span>${esc(m.teams[1].code)} ${pct(1-f.win)}</span></div>${mini?'':'<p class="small muted">最可能比分與系列賽勝方可能不同：勝方機率是該隊所有獲勝比分的總和。</p>'}`;}
+function professional(m){const f=pro(m);if(!f)return `<section class="panel analysis-content">${unavailable(m)}${m.teams.some(t=>t.id!=='0')?players(m,true):''}</section>`;return `<div class="prediction-layout"><section class="panel analysis-content"><div class="section-head"><h3>把判斷，寫成比分。</h3><span class="pill lime">官方 Elo 基準</span></div>${scorePanel(m,f)}<h4 class="subhead">所有可能比分</h4><div class="score-distribution">${f.outcomes.map(o=>`<div class="score-option ${f.top.includes(o)?'leading':''}"><b>${o.a} : ${o.b}</b><div><i style="width:${o.p*100}%"></i></div><span>${pct(o.p)}</span></div>`).join('')}</div><h4 class="subhead">這場的專業判讀</h4><div class="rating-grid">${f.ratings.map((r,i)=>`<div class="rating-card"><b style="color:${color(i)}">${esc(m.teams[i].code)}</b><strong>${r.elo}<small>Elo</small></strong><p>GPR 第 ${r.rank} · ${r.gpr} 分<br>賽季系列賽 ${r.wins} 勝 ${r.losses} 敗<br>賽季局數 ${r.mapWins} 勝 ${r.mapLosses} 敗</p><small class="muted">計算日 ${timeTW(r.calculatedAt,false)}</small></div>`).join('')}</div><p class="analysis-copy">官方 Elo 基準${f.ratings[0].elo===f.ratings[1].elo?'接近，模型沒有明顯勝方':`偏向 ${esc(m.teams[f.ratings[0].elo>f.ratings[1].elo?0:1].code)}`}；單局 ${esc(m.teams[0].code)} 勝率為 ${pct(f.p)}${f.adjustment?'（含你的情境調整）':''}。跨賽區勝敗紀錄只提供背景，沒有直接把原始勝率相加；BP、版本、先發與臨場變化仍可能改變結果。</p><details class="method-detail"><summary>這個比分怎麼算？</summary><p>以官方 Elo 差套用 p = 1 / (1 + 10^((EloB − EloA − 調整) / 400))，再枚舉 BO${m.bestOf} 所有合法終局。假設每局獨立且勝率固定，尚未做本屆校準或回測；不是保證，也不是引用真人分析師的預測。</p></details></section><aside class="prediction-aside"><section class="panel scenario"><span class="tiny-label">WHAT IF</span><h3>把你的觀察放進來</h3><p>假如 Key Player、BP 或版本讓你改觀，試著調整 A 方 Elo 優勢。</p><label for="adjustment">${esc(m.teams[0].code)} 相對調整 <output id="adjustment-output">${f.adjustment>0?'+':''}${f.adjustment}</output></label><input type="range" id="adjustment" min="-100" max="100" step="5" value="${f.adjustment}" aria-describedby="adjustment-help"><p id="adjustment-help" class="small muted">−100 偏向 ${esc(m.teams[1].code)} · +100 偏向 ${esc(m.teams[0].code)}。主觀情境，不會改寫官方戰力。</p><button class="text-button" id="reset-adjustment">重設為官方基準</button></section><section class="panel mini-player"><span class="tiny-label">KEY PLAYER WATCH</span><h3>${m.teams.map(t=>esc(PLAYERS[t.code]?.name||'待確認')).join(' × ')}</h3><p>觀察候選選手，先發尚未確認。從選手角色看系列賽轉折。</p><button class="text-button" data-tab="players">查看選手評估 ${icon('arrow')}</button></section>${mystic(m,true)}</aside></div>`;}
+function players(m,compact=false){return `<section class="${compact?'':'panel analysis-content'}"><div class="section-head"><h3>Key Player，誰牽動這場節奏？</h3><span class="pill">${compact?'條件式觀察':'角色觀察 · 非數值評分'}</span></div><p class="muted small">依名單與位置選擇觀察焦點。沒有本屆個人樣本時，不虛構 KDA、傷害或影響力分數。</p><div class="player-grid">${m.teams.map((t,i)=>{const p=PLAYERS[t.code];return `<article class="player-card"><span class="tiny-label" style="color:${color(i)}">${esc(t.code)}</span>${p?`<div class="player-name"><span>${p.name[0]}</span><div><h3>${esc(p.name)}</h3><small>${esc(p.role)}</small></div></div><span class="confidence">${esc(p.confidence)}</span><h4>專業觀察</h4><p>${esc(p.focus)}</p><p class="muted small">轉折點：${esc(p.swing)}</p><div class="player-mystic"><span>${icon('spark')} 選手玄學</span><p>${esc(p.mystic)}</p></div><details><summary>名單、來源與限制</summary><p>${esc(p.roster)}</p><p>${esc(p.caution)}</p><small>查核日 ${p.checkedAt}</small>${sourceLink(p.source,'查看名單來源')}${p.secondary?sourceLink(p.secondary,'位置的次級來源'):''}</details>`:`<h3>待確認</h3><p>${t.id==='0'?'隊伍尚未公布，確定對手後才能評估選手。':'尚無已核實的選手名單，暫不指定 Key Player。'}</p>`}</article>`;}).join('')}</div></section>`;}
+function mystic(m,mini=false){const f=pro(m),theme=THEMES[state.theme],result=mysticForecast(m,f,state.theme);return `<section class="panel ${mini?'mystic-mini':'analysis-content'} mystic-panel"><span class="tiny-label purple">HISTORY × INTUITION</span><h3>${mini?'這場，也有另一種劇本。':'玄學評估：讓歷史替直覺說話。'}</h3>${mini?'':`<div class="theme-switch" aria-label="玄學主題">${Object.entries(THEMES).map(([id,t])=>`<button class="button ${id===state.theme?'selected':''}" data-theme="${id}" aria-pressed="${id===state.theme}">${t.label}</button>`).join('')}</div>`}<h4>${theme.title}</h4><p>${theme.text}</p>${result?`<div class="mystic-score"><span>玄學比分劇本 · ${esc(m.teams[result.side].code)} ${m.bestOf===1?'單局獲勝':'打滿獲勝'}</span><strong>${result.a} : ${result.b}</strong><small>${esc(label(m))} · 主觀敘事，不提供機率</small></div>`:'<div class="mystic-score"><span>對戰或賽前資料不足，暫不寫比分劇本。</span></div>'}<p class="mystic-limit">${theme.limit} 玄學不會改變專業模型或 Key Player 的數據。</p>${theme.source!==null?sourceLink(SOURCES[theme.source].url,'歷史故事來源'):''}${mini?'<button class="text-button" data-tab="mystic">切換玄學主題 '+icon('arrow')+'</button>':`<div class="mystic-questions"><h4>看完這場，再回頭問自己</h4><p>我記住的是所有案例，還是只有傳奇？這個故事有沒有忽略陣容、版本與對手？</p></div>`}</section>`;}
+function notes(m){return `<section class="panel analysis-content notes-panel"><h3>把自己的判斷，留給賽後的你。</h3><p class="muted">寫下你的預測比分、Key Player 與玄學理由，再用實際結果回看。</p><label for="match-note">${esc(label(m))} 的觀察筆記</label><textarea id="match-note" rows="8" maxlength="3000" placeholder="我預測 3 : 2，因為……">${esc(state.notes[m.id]||'')}</textarea><div class="note-status" role="status">${storageOK?'輸入後自動儲存於此瀏覽器':'本機儲存受限，請匯出備份'}</div><button class="button secondary" id="export">${icon('download')}匯出觀察與筆記</button></section>`;}
+function watchlist(){const list=matches().filter(m=>state.saved.includes(m.id));return `${title('我的觀察','把真實對戰收進口袋，留下比勝負更有價值的觀察。',`<button class="button secondary" id="export">${icon('download')}匯出備份</button>`)}${notice()}${list.length?`<section class="panel radar"><div class="match-list">${list.map(matchRow).join('')}</div></section>`:'<div class="panel empty big-empty"><h2>第一場觀察，從這裡開始。</h2><p>打開一場對局，收藏並寫下自己的比分。</p><button class="button primary" data-nav="matches">探索真實對局</button></div>'}`;}
+function methods(){return `${title('資料有來源，預測有邊界。','看得見資料從哪裡來，也看得見每一種判斷的限制。')}<div class="methods-layout"><div><section class="panel method-card"><h2>01 / 每日官方賽程爬蟲</h2><p>只讀取 Riot 官方公開賽程中的 Worlds 2026 對局、開始時間、賽制與戰力摘要。台灣時間每日 06:00 同步一次，Local 啟動時會檢查當日更新；程式關閉時不會在背景執行。</p><p>GitHub 排程每日抓取並提交賽程快照；Local 若長期離線，保留上次成功資料。已排定時間但對手未知的場次顯示 TBD，不提供未確定對局的預測。</p><p>最後成功同步：${esc(snapshot.fetchedAt)}<br>來源沒有提供發布時間，因此不將抓取時間稱為官方發布時間。${snapshot.coverage.hasMore?'來源頁面有後續分頁，目前只收錄已讀取及先前成功同步的對局；不宣稱涵蓋完整賽事。':''}</p>${crawlStatus?.ok===false?`<p class="amber">${esc(crawlStatus.error)}</p>`:''}<p class="small muted">最新官方頁面 SHA-256：<span class="hash">${snapshot.sourceHash}</span></p></section><section class="panel method-card"><h2>02 / 比分與專業判讀</h2><p>以官方 Elo 計算單局勝率，再推導 BO1、BO3、BO5 的所有終局比分。不接入即時戰況，已開始或時間已過但狀態未更新的對局，停止產生賽前預測。</p><p>模型假設每局獨立、勝率固定，尚未以本屆資料回測或校準。Key Player 分析為依角色提出的觀察方向，明確標記名單來源與不確定性；本站沒有引用真人分析師的個別預測。</p></section><section class="panel method-card"><h2>03 / 玄學是獨立的觀賽劇本</h2><p>黑馬、世界賽記憶與氣勢延續各有歷史敘事，也各有偏誤。玄學比分是主觀選擇，不宣稱命中率、不參與 Elo 計算。</p></section><section class="panel method-card"><h2>資料來源</h2>${SOURCES.map((s,i)=>`<article class="source-row"><span class="source-number">0${i+1}</span><div><h3>${sourceLink(s.url,s.title)}</h3><p>${s.detail}</p></div></article>`).join('')}</section></div><aside><section class="panel method-card"><h2>只在你的本機</h2><p>收藏與筆記儲存在這個瀏覽器，沒有帳號，也不會上傳你的觀察。</p><button class="text-button" id="export">匯出我的備份 ${icon('download')}</button></section><section class="panel method-card"><h2>更新頻率</h2><p>每天 06:00（台灣時間）<br>GitHub 排程可能延遲。<br>Local 每分鐘檢查更新視窗與重讀資料。<br>失敗後保留最後成功快照，下個每日視窗重試。</p><p>需要立即重抓，可在專案執行 <code>npm run update:schedule -- --force</code>。</p></section></aside></div>`;}
+function render(){const active=document.activeElement,id=active?.id,start=active?.selectionStart;$('#app').innerHTML=shell();if(id){const next=document.getElementById(id);next?.focus({preventScroll:true});if(typeof start==='number'&&next?.setSelectionRange)try{next.setSelectionRange(start,start);}catch{}}}
+function route(view,id,tab){state.view=view;if(id&&matches().some(m=>m.id===id)){state.selected=id;state.tab=tab||'pro';}history.replaceState(null,'',view==='home'?'#overview':view==='matches'?`#match=${state.selected}`:`#${view}`);render();if(view==='matches'&&id)requestAnimationFrame(()=>$('#match-detail')?.scrollIntoView({behavior:'smooth',block:'start'}));else window.scrollTo({top:0,behavior:'smooth'});}
+function exportData(){const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),saved:state.saved,notes:state.notes},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='nexus-worlds-observations.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('已匯出收藏與筆記。');}
+$('#app').addEventListener('click',e=>{
+ const target=e.target.closest('button,a');if(!target)return;
+ if(target.dataset.nav){e.preventDefault();route(target.dataset.nav);}
+ else if(target.dataset.match)route('matches',target.dataset.match,target.dataset.tab);
+ else if(target.dataset.stage){state.stage=target.dataset.stage;state.page=0;render();}
+ else if(target.dataset.page!==undefined&&!target.disabled){state.page=Number(target.dataset.page);render();}
+ else if(target.dataset.tab){state.tab=target.dataset.tab;render();document.getElementById(`tab-${state.tab}`)?.focus({preventScroll:true});}
+ else if(target.dataset.theme){state.theme=target.dataset.theme;render();}
+ else if(target.dataset.save){const id=target.dataset.save;state.saved=state.saved.includes(id)?state.saved.filter(x=>x!==id):[...state.saved,id];persist();render();toast(state.saved.includes(id)?'已收藏這場對局。':'已移除收藏。');}
+ else if(target.id==='clear-filters'){state.stage='all';state.search='';state.page=0;render();}
+ else if(target.id==='reset-adjustment'){state.adjustments[current().id]=0;render();}
+ else if(target.id==='export')exportData();
+ else if(target.id==='retry')load();
 });
-document.addEventListener('input',e=>{
-  const t=e.target;
-  if(t.dataset.factor!==undefined) {const i=Number(t.dataset.factor),m=current();state.scores[m.id]||=[...m.scores];state.scores[m.id][i]=Number(t.value);$(`#factor-value-${i}`).textContent=t.value;t.setAttribute('aria-valuetext',`${m.a} 相對評分 ${t.value}，50 為均衡`);refreshNumbers();}
-  if(t.dataset.odd!==undefined) {const odds=[...marketOdds()];odds[Number(t.dataset.odd)]=t.value===''?NaN:Number(t.value);state.odds[oddsKey()]=odds;t.setAttribute('aria-invalid',String(!Number.isFinite(odds[Number(t.dataset.odd)])||odds[Number(t.dataset.odd)]<=1||odds[Number(t.dataset.odd)]>1000));refreshNumbers();}
-  if(t.id==='search') {const start=t.selectionStart;state.search=t.value;render();$('#search').focus();$('#search').setSelectionRange(start,start);}
-});
-document.addEventListener('change',e=>{
-  if(e.target.id==='preset'){state.preset=e.target.value;refreshNumbers();}
-  if(e.target.id==='market'){state.market=e.target.value;state.pick=0;render();}
-  if(e.target.id==='total-line'){state.total=Number(e.target.value);state.pick=0;render();}
-  if(e.target.id==='import') importData(e.target.files[0]);
-});
-document.addEventListener('keydown',e=>{
-  const tab=e.target.closest('[role="tab"][data-tab]');
-  if(!tab||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
-  e.preventDefault();const keys=['pro','mystic','notes'],i=keys.indexOf(state.tab);
-  state.tab=e.key==='Home'?keys[0]:e.key==='End'?keys[2]:keys[(i+(e.key==='ArrowRight'?1:2))%3];
-  render();$(`#tab-${state.tab}`).focus({preventScroll:true});
-});
-document.addEventListener('submit',e=>{
-  if(e.target.id==='note-form'){e.preventDefault();const f=new FormData(e.target),url=String(f.get('url')||'');if(url&&!safeURL(url)){toast('來源連結僅接受 http 或 https。');return;}state.notes[current().id]={author:String(f.get('author')||'').slice(0,80),url:safeURL(url),text:String(f.get('text')||'').slice(0,3000)};persist();render();toast('分析筆記已儲存。');}
-  if(e.target.id==='match-form'){e.preventDefault();const f=new FormData(e.target),editing=f.get('edit')==='yes',old=current();if(!editing&&matches.filter(m=>m.custom).length>=30){toast('最多保存 30 場自訂對戰。');return;}const m=validateMatch({id:editing?old.id:`custom-${crypto.randomUUID()}`,a:f.get('a'),b:f.get('b'),stage:f.get('stage'),bestOf:Number(f.get('bestOf')),scores:editing?old.scores:[50,50,50,50,50],odds:editing?old.odds:[1.9,1.9]});if(!m){toast('請輸入兩個不同隊名與有效賽制。');return;}if(editing){matches=matches.map(x=>x.id===old.id?m:x);delete state.scores[m.id];for(const key of Object.keys(state.odds))if(key.startsWith(m.id+'-'))delete state.odds[key];}else matches.push(m);$('#editor').close();persist();state.stage='all';state.search='';route('matches',m.id);toast('情境對戰已儲存。');}
-});
-const hash=location.hash;
-if(hash.startsWith('#match=')){let id='';try{id=decodeURIComponent(hash.slice(7));}catch{}if(matches.some(m=>m.id===id)){state.selected=id;state.view='matches';state.total=current().bestOf===5?3.5:2.5;}}
-else if(['#watchlist','#methods'].includes(hash))state.view=hash.slice(1);
-render();
+$('#app').addEventListener('input',e=>{if(e.target.id==='search'){state.search=e.target.value;state.page=0;render();}if(e.target.id==='adjustment'){state.adjustments[current().id]=Number(e.target.value);render();}if(e.target.id==='match-note'){state.notes[current().id]=e.target.value.slice(0,3000);persist();}});
+$('#app').addEventListener('keydown',e=>{if(e.target.matches('[role="tab"]')&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const keys=['pro','players','mystic','notes'],i=keys.indexOf(state.tab);state.tab=e.key==='Home'?keys[0]:e.key==='End'?keys[3]:keys[(i+(e.key==='ArrowRight'?1:3))%4];render();document.getElementById(`tab-${state.tab}`).focus({preventScroll:true});}});
+async function load(){loading=true;loadError='';render();try{const [scheduleResponse,statusResponse]=await Promise.all([fetch('/api/schedule'),fetch('/api/status')]);if(!scheduleResponse.ok)throw new Error('API unavailable');snapshot=validateSnapshot(await scheduleResponse.json());crawlStatus=statusResponse.ok?await statusResponse.json():null;hydrate();let hash='';try{hash=decodeURIComponent(location.hash.slice(1));}catch{};if(hash.startsWith('match=')){const id=hash.slice(6);state.selected=matches().find(m=>m.id===id)?.id||matches().find(m=>m.teams.map(t=>t.code.toLowerCase()).join('-')===id)?.id||matches()[0].id;state.view='matches';}else if(['watchlist','methods'].includes(hash))state.view=hash;state.selected||=matches().find(m=>predictionAvailability(m)==='ready')?.id||matches()[0].id;}catch{loadError='請確認 Local 伺服器正在執行，且已有成功同步的官方賽程。';}finally{loading=false;render();}}
+load();
+// Re-read only the local read-only API, so an open tab receives the daily update.
+async function syncLocal(){
+ if(!snapshot||loading)return;
+ try {
+  const response=await fetch('/api/schedule');if(!response.ok)throw new Error();
+  const next=validateSnapshot(await response.json());
+  const status=await fetch('/api/status');crawlStatus=status.ok?await status.json():null;
+  snapshot=next;loadError='';
+  if(!matches().some(m=>m.id===state.selected))state.selected=matches()[0].id;
+ }catch{loadError='本機資料暫時無法重讀';}
+ if(!['TEXTAREA','INPUT'].includes(document.activeElement?.tagName))render();
+}
+setInterval(syncLocal,60000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncLocal();});
