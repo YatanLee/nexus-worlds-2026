@@ -20,6 +20,11 @@ jobs:
           node --check server.mjs
           node --check schedule.mjs
           node --check crawler.mjs
+          node --check history.mjs
+          node --check history-sync.mjs
+          node --check history-ui.mjs
+          node --check scripts/build-history.mjs
+          node --check scripts/check-history-publication.mjs
           node --check scripts/update-schedule.mjs
       - run: npm test
       - run: npm run check:public

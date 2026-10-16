@@ -12,6 +12,7 @@ jobs:
   refresh:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write
     steps:
@@ -22,17 +23,26 @@ jobs:
         with:
           node-version: '22'
       - run: npm run update:schedule -- --force
+      - run: node scripts/build-history.mjs
       - run: npm test
       - run: npm run check:public
-      - name: Commit only validated public schedule
+      - name: Publish only validated public schedule and history
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          git add -- data/schedule.json
+          node scripts/check-history-publication.mjs
+          git add -- data/schedule.json data/prediction-history.json
           changed=$(git diff --cached --name-only)
           if [ -z "$changed" ]; then exit 0; fi
-          test "$changed" = "data/schedule.json"
+          while IFS= read -r file; do
+            case "$file" in
+              data/schedule.json|data/prediction-history.json) ;;
+              *) echo "Unexpected staged path"; exit 1 ;;
+            esac
+          done <<< "$changed"
           git diff --cached --check
-          git -c user.name=github-actions[bot] -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -m "chore: refresh official Worlds schedule"
+          node scripts/check-history-publication.mjs
+          git -c user.name=github-actions[bot] -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -m "chore: refresh official schedule and forecast history"
+          node scripts/check-history-publication.mjs
           git -c credential.helper= -c 'credential.helper=!gh auth git-credential' push origin HEAD:main

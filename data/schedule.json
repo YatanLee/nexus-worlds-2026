@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "source": "https://lolesports.com/en-US/leagues/worlds",
   "tournament": "115660540725177488",
-  "fetchedAt": "2026-10-16T16:25:43.365Z",
+  "fetchedAt": "2026-10-16T16:09:39.400Z",
   "sourcePublishedAt": null,
-  "sourceHash": "1fefc1b433765b7a4032678880b316e0c4a05beae7d16c669c6c47605f68e1a3",
+  "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a",
   "coverage": {
     "hasMore": true
   },
@@ -32,7 +32,7 @@
           "wins": 2
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660588583040710",
@@ -57,7 +57,7 @@
           "wins": 0
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660588583171790",
@@ -82,7 +82,7 @@
           "wins": 0
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660588583171794",
@@ -107,7 +107,7 @@
           "wins": 0
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660588583171798",
@@ -132,7 +132,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "116299649498303884",
@@ -157,7 +157,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095005",
@@ -182,7 +182,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095007",
@@ -207,7 +207,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095009",
@@ -232,7 +232,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095011",
@@ -257,7 +257,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095013",
@@ -282,7 +282,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095015",
@@ -307,7 +307,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095017",
@@ -332,7 +332,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095019",
@@ -357,7 +357,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095021",
@@ -382,7 +382,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095023",
@@ -407,7 +407,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095025",
@@ -432,7 +432,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095027",
@@ -457,7 +457,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095029",
@@ -482,7 +482,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095031",
@@ -507,7 +507,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095033",
@@ -532,7 +532,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095035",
@@ -557,7 +557,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095045",
@@ -582,7 +582,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095047",
@@ -607,7 +607,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095037",
@@ -632,7 +632,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095041",
@@ -657,7 +657,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095049",
@@ -682,7 +682,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095051",
@@ -707,7 +707,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095053",
@@ -732,7 +732,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095057",
@@ -757,7 +757,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095061",
@@ -782,7 +782,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095065",
@@ -807,7 +807,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095069",
@@ -832,7 +832,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095073",
@@ -857,7 +857,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095077",
@@ -882,7 +882,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095081",
@@ -907,7 +907,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095085",
@@ -932,7 +932,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095089",
@@ -957,7 +957,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095093",
@@ -982,7 +982,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095097",
@@ -1007,7 +1007,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095103",
@@ -1032,7 +1032,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     },
     {
       "id": "115660540726095109",
@@ -1057,7 +1057,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:25:43.365Z"
+      "observedAt": "2026-10-16T16:09:39.400Z"
     }
   ],
   "ratings": [
@@ -1071,7 +1071,9 @@
       "wins": 28,
       "losses": 13,
       "mapWins": 72,
-      "mapLosses": 47
+      "mapLosses": 47,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "100205573495116443",
@@ -1083,7 +1085,9 @@
       "wins": 33,
       "losses": 9,
       "mapWins": 81,
-      "mapLosses": 29
+      "mapLosses": 29,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404853854212",
@@ -1095,7 +1099,9 @@
       "wins": 48,
       "losses": 11,
       "mapWins": 122,
-      "mapLosses": 50
+      "mapLosses": 50,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98767991926151025",
@@ -1107,7 +1113,9 @@
       "wins": 33,
       "losses": 15,
       "mapWins": 79,
-      "mapLosses": 41
+      "mapLosses": 41,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98767991853197861",
@@ -1119,7 +1127,9 @@
       "wins": 29,
       "losses": 16,
       "mapWins": 80,
-      "mapLosses": 50
+      "mapLosses": 50,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566405941863385",
@@ -1131,7 +1141,9 @@
       "wins": 25,
       "losses": 11,
       "mapWins": 72,
-      "mapLosses": 39
+      "mapLosses": 39,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "100725845018863243",
@@ -1143,7 +1155,9 @@
       "wins": 27,
       "losses": 16,
       "mapWins": 66,
-      "mapLosses": 55
+      "mapLosses": 55,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404856367466",
@@ -1155,7 +1169,9 @@
       "wins": 32,
       "losses": 18,
       "mapWins": 81,
-      "mapLosses": 57
+      "mapLosses": 57,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404579461230",
@@ -1167,7 +1183,9 @@
       "wins": 20,
       "losses": 18,
       "mapWins": 50,
-      "mapLosses": 52
+      "mapLosses": 52,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "111692118851466302",
@@ -1179,7 +1197,9 @@
       "wins": 33,
       "losses": 13,
       "mapWins": 74,
-      "mapLosses": 43
+      "mapLosses": 43,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98926509885559666",
@@ -1191,7 +1211,9 @@
       "wins": 22,
       "losses": 10,
       "mapWins": 57,
-      "mapLosses": 32
+      "mapLosses": 32,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "113661839307879869",
@@ -1203,7 +1225,9 @@
       "wins": 26,
       "losses": 6,
       "mapWins": 66,
-      "mapLosses": 29
+      "mapLosses": 29,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404854685458",
@@ -1215,7 +1239,9 @@
       "wins": 27,
       "losses": 24,
       "mapWins": 76,
-      "mapLosses": 64
+      "mapLosses": 64,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "101388912914513220",
@@ -1227,7 +1253,9 @@
       "wins": 21,
       "losses": 13,
       "mapWins": 54,
-      "mapLosses": 39
+      "mapLosses": 39,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404848691211",
@@ -1239,7 +1267,9 @@
       "wins": 18,
       "losses": 25,
       "mapWins": 57,
-      "mapLosses": 67
+      "mapLosses": 67,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98767991877340524",
@@ -1251,7 +1281,9 @@
       "wins": 20,
       "losses": 8,
       "mapWins": 50,
-      "mapLosses": 32
+      "mapLosses": 32,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98926509892121852",
@@ -1263,7 +1295,9 @@
       "wins": 11,
       "losses": 14,
       "mapWins": 33,
-      "mapLosses": 37
+      "mapLosses": 37,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "107700199633958891",
@@ -1275,7 +1309,9 @@
       "wins": 12,
       "losses": 14,
       "mapWins": 37,
-      "mapLosses": 42
+      "mapLosses": 42,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "103461966965149786",
@@ -1287,7 +1323,9 @@
       "wins": 22,
       "losses": 18,
       "mapWins": 51,
-      "mapLosses": 43
+      "mapLosses": 43,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404853058754",
@@ -1299,7 +1337,9 @@
       "wins": 16,
       "losses": 20,
       "mapWins": 47,
-      "mapLosses": 53
+      "mapLosses": 53,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404852189289",
@@ -1311,7 +1351,9 @@
       "wins": 29,
       "losses": 25,
       "mapWins": 81,
-      "mapLosses": 79
+      "mapLosses": 79,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98767991887166787",
@@ -1323,7 +1365,9 @@
       "wins": 17,
       "losses": 31,
       "mapWins": 53,
-      "mapLosses": 80
+      "mapLosses": 80,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98767991954244555",
@@ -1335,7 +1379,9 @@
       "wins": 14,
       "losses": 11,
       "mapWins": 40,
-      "mapLosses": 33
+      "mapLosses": 33,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404846951820",
@@ -1347,7 +1393,9 @@
       "wins": 15,
       "losses": 18,
       "mapWins": 44,
-      "mapLosses": 53
+      "mapLosses": 53,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99322214695067838",
@@ -1359,7 +1407,9 @@
       "wins": 23,
       "losses": 13,
       "mapWins": 43,
-      "mapLosses": 35
+      "mapLosses": 35,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "100725845022060229",
@@ -1371,7 +1421,9 @@
       "wins": 19,
       "losses": 24,
       "mapWins": 57,
-      "mapLosses": 65
+      "mapLosses": 65,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "107700204561086446",
@@ -1383,7 +1435,9 @@
       "wins": 16,
       "losses": 14,
       "mapWins": 48,
-      "mapLosses": 49
+      "mapLosses": 49,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "107251245690956393",
@@ -1395,7 +1449,9 @@
       "wins": 12,
       "losses": 13,
       "mapWins": 35,
-      "mapLosses": 40
+      "mapLosses": 40,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404850008779",
@@ -1407,7 +1463,9 @@
       "wins": 11,
       "losses": 9,
       "mapWins": 29,
-      "mapLosses": 24
+      "mapLosses": 24,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98767991866488695",
@@ -1419,7 +1477,9 @@
       "wins": 11,
       "losses": 20,
       "mapWins": 25,
-      "mapLosses": 35
+      "mapLosses": 35,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "102747101565183056",
@@ -1431,7 +1491,9 @@
       "wins": 12,
       "losses": 22,
       "mapWins": 34,
-      "mapLosses": 52
+      "mapLosses": 52,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "115688562107799886",
@@ -1443,7 +1505,9 @@
       "wins": 10,
       "losses": 13,
       "mapWins": 29,
-      "mapLosses": 37
+      "mapLosses": 37,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "101383793572656373",
@@ -1455,7 +1519,9 @@
       "wins": 19,
       "losses": 18,
       "mapWins": 40,
-      "mapLosses": 43
+      "mapLosses": 43,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "105505619546859895",
@@ -1467,7 +1533,9 @@
       "wins": 10,
       "losses": 25,
       "mapWins": 37,
-      "mapLosses": 56
+      "mapLosses": 56,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "100205576309502431",
@@ -1479,7 +1547,9 @@
       "wins": 24,
       "losses": 12,
       "mapWins": 56,
-      "mapLosses": 35
+      "mapLosses": 35,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "114868016111590239",
@@ -1491,7 +1561,9 @@
       "wins": 20,
       "losses": 15,
       "mapWins": 38,
-      "mapLosses": 37
+      "mapLosses": 37,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "111504538396430510",
@@ -1503,7 +1575,9 @@
       "wins": 7,
       "losses": 15,
       "mapWins": 20,
-      "mapLosses": 39
+      "mapLosses": 39,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "101388912911039804",
@@ -1515,7 +1589,9 @@
       "wins": 7,
       "losses": 23,
       "mapWins": 27,
-      "mapLosses": 54
+      "mapLosses": 54,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98767991882270868",
@@ -1527,7 +1603,9 @@
       "wins": 10,
       "losses": 20,
       "mapWins": 27,
-      "mapLosses": 51
+      "mapLosses": 51,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "109480204628225868",
@@ -1539,7 +1617,9 @@
       "wins": 23,
       "losses": 9,
       "mapWins": 53,
-      "mapLosses": 33
+      "mapLosses": 33,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "103535282119620510",
@@ -1551,7 +1631,9 @@
       "wins": 9,
       "losses": 13,
       "mapWins": 26,
-      "mapLosses": 34
+      "mapLosses": 34,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566408221961358",
@@ -1563,7 +1645,9 @@
       "wins": 18,
       "losses": 14,
       "mapWins": 41,
-      "mapLosses": 36
+      "mapLosses": 36,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "105397404796640412",
@@ -1575,7 +1659,9 @@
       "wins": 18,
       "losses": 15,
       "mapWins": 46,
-      "mapLosses": 37
+      "mapLosses": 37,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "110428362822825796",
@@ -1587,7 +1673,9 @@
       "wins": 5,
       "losses": 14,
       "mapWins": 14,
-      "mapLosses": 33
+      "mapLosses": 33,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404585387054",
@@ -1599,7 +1687,9 @@
       "wins": 11,
       "losses": 25,
       "mapWins": 37,
-      "mapLosses": 59
+      "mapLosses": 59,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566408219409348",
@@ -1611,7 +1701,9 @@
       "wins": 13,
       "losses": 15,
       "mapWins": 27,
-      "mapLosses": 36
+      "mapLosses": 36,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "109675490370327425",
@@ -1623,7 +1715,9 @@
       "wins": 8,
       "losses": 14,
       "mapWins": 27,
-      "mapLosses": 36
+      "mapLosses": 36,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404581868574",
@@ -1635,7 +1729,9 @@
       "wins": 10,
       "losses": 26,
       "mapWins": 28,
-      "mapLosses": 60
+      "mapLosses": 60,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "107563714667537640",
@@ -1647,7 +1743,9 @@
       "wins": 7,
       "losses": 22,
       "mapWins": 16,
-      "mapLosses": 38
+      "mapLosses": 38,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566404845279652",
@@ -1659,7 +1757,9 @@
       "wins": 4,
       "losses": 9,
       "mapWins": 12,
-      "mapLosses": 22
+      "mapLosses": 22,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "99566408217955692",
@@ -1671,7 +1771,9 @@
       "wins": 6,
       "losses": 20,
       "mapWins": 19,
-      "mapLosses": 39
+      "mapLosses": 39,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "103461966986776720",
@@ -1683,7 +1785,9 @@
       "wins": 3,
       "losses": 8,
       "mapWins": 9,
-      "mapLosses": 16
+      "mapLosses": 16,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "101383793567806688",
@@ -1695,7 +1799,9 @@
       "wins": 8,
       "losses": 21,
       "mapWins": 17,
-      "mapLosses": 35
+      "mapLosses": 35,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "98926509883054987",
@@ -1707,7 +1813,9 @@
       "wins": 1,
       "losses": 17,
       "mapWins": 8,
-      "mapLosses": 33
+      "mapLosses": 33,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "100285330168091787",
@@ -1719,7 +1827,9 @@
       "wins": 1,
       "losses": 18,
       "mapWins": 7,
-      "mapLosses": 39
+      "mapLosses": 39,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "109637393694097670",
@@ -1731,7 +1841,9 @@
       "wins": 9,
       "losses": 22,
       "mapWins": 14,
-      "mapLosses": 41
+      "mapLosses": 41,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "109480056092207899",
@@ -1743,7 +1855,9 @@
       "wins": 8,
       "losses": 17,
       "mapWins": 21,
-      "mapLosses": 34
+      "mapLosses": 34,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     },
     {
       "id": "107598699275015260",
@@ -1755,7 +1869,9 @@
       "wins": 7,
       "losses": 19,
       "mapWins": 14,
-      "mapLosses": 37
+      "mapLosses": 37,
+      "observedAt": "2026-10-16T16:09:39.400Z",
+      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
     }
   ]
 }

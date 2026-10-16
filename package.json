@@ -1,6 +1,6 @@
 {
   "name": "nexus-worlds-2026",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
   "scripts": { "start": "node server.mjs", "update:schedule": "node scripts/update-schedule.mjs", "check:public": "node scripts/check-public.mjs", "test": "node --test tests/*.test.mjs" },

@@ -37,6 +37,7 @@ export function extractObjects(html,type) {
 }
 export function parseSchedule(html,now=new Date()) {
   const fetchedAt=now.toISOString().replace('.000Z','Z');
+  const sourceHash=createHash('sha256').update(html).digest('hex');
   const matches=new Map();
   for(const event of extractObjects(html,'EventMatch')) {
     const normalized=normalizeEvent(event);
@@ -48,13 +49,13 @@ export function parseSchedule(html,now=new Date()) {
   const ratings=new Map();
   for(const r of extractObjects(html,'TeamGPR')) {
     if(!r.id?.includes(':2026-01-01T00:00:00Z:')) continue;
-    const v={id:r.team?.id,code:r.team?.code,elo:r.currentTeamGPR?.elo,gpr:r.currentTeamGPR?.gprScore,rank:r.currentTeamGPR?.rank,calculatedAt:r.currentTeamGPR?.dateCalculated,wins:r.teamMatchRecord?.wins,losses:r.teamMatchRecord?.losses,mapWins:r.teamGameRecord?.wins,mapLosses:r.teamGameRecord?.losses};
+    const v={id:r.team?.id,code:r.team?.code,elo:r.currentTeamGPR?.elo,gpr:r.currentTeamGPR?.gprScore,rank:r.currentTeamGPR?.rank,calculatedAt:r.currentTeamGPR?.dateCalculated,wins:r.teamMatchRecord?.wins,losses:r.teamMatchRecord?.losses,mapWins:r.teamGameRecord?.wins,mapLosses:r.teamGameRecord?.losses,observedAt:fetchedAt,sourceHash};
     if(ratings.has(v.id) && JSON.stringify(ratings.get(v.id))!==JSON.stringify(v)) throw new Error('Conflicting rating copies');
     ratings.set(v.id,v);
   }
   const groups=extractObjects(html,'EsportsData').filter(g=>g.events?.some(e=>e.league?.slug==='worlds' && e.tournament?.id===TOURNAMENT));
   const hasMore=!groups.length || groups.some(g=>g.pages?.newer!==null || g.pages?.older!==null);
-  return validateSnapshot({schemaVersion:2,source:SOURCE,tournament:TOURNAMENT,fetchedAt,sourcePublishedAt:null,sourceHash:createHash('sha256').update(html).digest('hex'),coverage:{hasMore},matches:[...matches.values()].sort((a,b)=>a.startTime.localeCompare(b.startTime)||a.id.localeCompare(b.id)),ratings:[...ratings.values()].sort((a,b)=>a.rank-b.rank)});
+  return validateSnapshot({schemaVersion:3,source:SOURCE,tournament:TOURNAMENT,fetchedAt,sourcePublishedAt:null,sourceHash,coverage:{hasMore},matches:[...matches.values()].sort((a,b)=>a.startTime.localeCompare(b.startTime)||a.id.localeCompare(b.id)),ratings:[...ratings.values()].sort((a,b)=>a.rank-b.rank)});
 }
 export async function fetchOfficial(fetcher=fetch) {
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
@@ -96,14 +97,16 @@ export function refreshSchedule(options={}) {
   if(active)return active;
   active=refresh(options).finally(()=>{active=undefined;});return active;
 }
-async function refresh({root=ROOT,now=new Date(),force=false,fetcher=fetchOfficial}={}) {
-  const window=dailyWindow(now),status=await readStatus(root);
+async function refresh({root=ROOT,now,force=false,fetcher=fetchOfficial}={}) {
+  const attemptTime=now||new Date(),window=dailyWindow(attemptTime),status=await readStatus(root);
   let previous;try {previous=await readSnapshot(root);} catch {}
-  if(!force && (status?.window===window || (previous && dailyWindow(new Date(previous.fetchedAt))===window))) return {skipped:true,ok:status?.window===window?status.ok:true};
+  if(!force && previous && dailyWindow(new Date(previous.fetchedAt))===window && (!status?.attemptedAt || Date.parse(previous.fetchedAt)>=Date.parse(status.attemptedAt)))return {skipped:true,ok:true};
+  if(!force && status?.window===window)return {skipped:true,ok:status.ok};
   const statusFile=path.join(root,'.cache/crawl-status.json');
-  await atomicJSON(statusFile,{window,attemptedAt:now.toISOString(),ok:false});
+  await atomicJSON(statusFile,{window,attemptedAt:attemptTime.toISOString(),ok:false});
   try {
-    const next=parseSchedule(await fetcher(),now);
+    const html=await fetcher();
+    const next=parseSchedule(html,now||new Date());
     // A truncated official page must not erase already known real fixtures.
     if(previous && next.coverage.hasMore) {
       const byId=new Map(previous.matches.map(m=>[m.id,m]));
@@ -113,7 +116,7 @@ async function refresh({root=ROOT,now=new Date(),force=false,fetcher=fetchOffici
     }
     validateSnapshot(next);
     await atomicJSON(path.join(root,'data/schedule.json'),next);
-    await atomicJSON(statusFile,{window,attemptedAt:now.toISOString(),ok:true});
+    await atomicJSON(statusFile,{window,attemptedAt:attemptTime.toISOString(),ok:true});
     return {ok:true,count:next.matches.length};
-  } catch {await atomicJSON(statusFile,{window,attemptedAt:now.toISOString(),ok:false});return {ok:false,error:'Official schedule refresh failed; previous snapshot retained.'};}
+  } catch {await atomicJSON(statusFile,{window,attemptedAt:attemptTime.toISOString(),ok:false});return {ok:false,error:'Official schedule refresh failed; previous snapshot retained.'};}
 }

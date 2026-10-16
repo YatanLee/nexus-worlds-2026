@@ -7,10 +7,11 @@ test('loopback readonly API and allowlisted static assets enforce boundaries',{t
  try {
   const [output]=await once(child.stdout,'data'),url=String(output).match(/http:\/\/127\.0\.0\.1:\d+\//)?.[0];assert.ok(url);
   const res=await fetch(url);assert.equal(res.status,200);assert.match(await res.text(),/NEXUS/);assert.match(res.headers.get('content-security-policy'),/connect-src 'self'/);
-  const snapshot=await fetch(url+'api/schedule');assert.equal(snapshot.status,200);assert.equal((await snapshot.json()).schemaVersion,2);
+  const snapshot=await fetch(url+'api/schedule');assert.equal(snapshot.status,200);assert.equal((await snapshot.json()).schemaVersion,3);
+  for(const route of ['api/predictions','api/evaluations']) {const response=await fetch(url+route);assert.equal(response.status,200);assert.equal((await response.json()).schemaVersion,1);}
   assert.equal((await fetch(url+'api/status')).status,200);
-  for(const route of ['tests/model.test.mjs','design/overview-concept.png','.git/config','%2e%2e%5cindex.html','crawler.mjs','data/schedule.json','.cache/crawl-status.json','api/schedule?url=https://example.com','api/refresh'])assert.equal((await fetch(url+route)).status,404,route);
-  for(const route of ['','api/schedule','api/status'])assert.equal((await fetch(url+route,{method:'POST',body:'test'})).status,405);
+  for(const route of ['tests/model.test.mjs','design/overview-concept.png','.git/config','%2e%2e%5cindex.html','crawler.mjs','history.mjs','history-sync.mjs','data/schedule.json','data/prediction-history.json','.cache/crawl-status.json','api/schedule?url=https://example.com','api/evaluations?url=https://example.com','api/refresh'])assert.equal((await fetch(url+route)).status,404,route);
+  for(const route of ['','api/schedule','api/status','api/predictions','api/evaluations'])assert.equal((await fetch(url+route,{method:'POST',body:'test'})).status,405);
   const head=await fetch(url+'api/schedule',{method:'HEAD'});assert.equal(head.status,200);assert.equal(await head.text(),'');
   assert.equal((await fetch(url+'app.mjs')).status,200);assert.equal((await fetch(url+'schedule.mjs')).status,200);
  }finally{child.kill();await once(child,'exit');}

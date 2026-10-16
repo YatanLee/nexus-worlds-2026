@@ -1,5 +1,15 @@
 # Release notes
 
+## 2.1.0 · Auditable pregame history
+
+- Added CI-only immutable baseline revisions, frozen rating/source provenance, deterministic model replay and latest eligible pregame selection per event/model.
+- Added official-result assessments with team-ID mapping, identity-change exclusions and append-only result corrections. Missing pregame evidence is explicitly unrecorded, never backfilled.
+- Added readonly prediction/evaluation APIs, fixed public-history download with ignored local cache, failure fallback and per-match comparison UI.
+- Upgraded schedule rating provenance to schema3; legacy unknown observation times are not invented. Both fixture and rating freshness gate forecast generation.
+- Restricted the daily writer to two public JSON artifacts, with a five-minute timeout and repeated ten-minute deadline checks against the original checkout commit.
+
+Private notes/scenarios remain browser-local. The public ledger starts collecting only after this version's first eligible main CI run; earlier completed matches have no archived forecast.
+
 ## 2.0.0 · Official schedule and score predictions
 
 - Replaced illustrative and custom fixtures with validated Riot Worlds 2026 data; unknown opponents remain TBD with official start time and BO.
