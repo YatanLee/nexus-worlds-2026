@@ -73,3 +73,11 @@ test('atomic write failure does not damage the existing destination',async()=>{
  await mkdir(path.join(root,'blocked.json'));await assert.rejects(atomicJSON(path.join(root,'blocked.json'),{new:true}));
  assert.deepEqual(JSON.parse(await readFile(file,'utf8')),{good:true});
 });
+test('legacy rating provenance stays unknown; fresh crawls attach observation and source hashes',async()=>{
+ const s=JSON.parse(await readFile(new URL('../data/schedule.json',import.meta.url),'utf8'));
+ const legacy={...s,schemaVersion:2,ratings:s.ratings.map(({observedAt,sourceHash,...r})=>r)};
+ const migrated=validateSnapshot(legacy);assert.equal(migrated.schemaVersion,3);
+ assert.ok(migrated.ratings.every(r=>r.observedAt===null&&r.sourceHash===null));
+ assert.equal(legacy.schemaVersion,2);
+ if(s.ratings.length){const bad=structuredClone(s);bad.ratings[0].notes='private';assert.throws(()=>validateSnapshot(bad));}
+});

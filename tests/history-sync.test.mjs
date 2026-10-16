@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdir,readFile} from 'node:fs/promises';
+import path from 'node:path';
+import {randomUUID} from 'node:crypto';
+import {emptyHistory} from '../history.mjs';
+import {atomicJSON} from '../crawler.mjs';
+import {fetchPublicHistory,HISTORY_SOURCE,readPublicHistory,readHistoryStatus,syncPublicHistory} from '../history-sync.mjs';
+const temp=async()=>{const dir=path.resolve('.cache',`sync-${randomUUID()}`);await mkdir(dir,{recursive:true});return dir;};
+test('public history fetch is fixed, credential-free, bounded and rejects redirects/private fields',async()=>{
+  const good=emptyHistory();let calls=0;
+  const h=await fetchPublicHistory(async(url,options)=>{calls++;assert.equal(url,HISTORY_SOURCE);assert.equal(options.redirect,'manual');assert.equal(options.credentials,'omit');assert.ok(options.signal instanceof AbortSignal);return new Response(JSON.stringify(good),{headers:{'content-type':'text/plain; charset=utf-8'}});});
+  assert.deepEqual(h,good);assert.equal(calls,1);
+  await assert.rejects(fetchPublicHistory(async()=>new Response('',{status:302,headers:{location:'https://example.com'}})));
+  await assert.rejects(fetchPublicHistory(async()=>new Response('x',{headers:{'content-type':'text/html'}})));
+  await assert.rejects(fetchPublicHistory(async()=>new Response('{}',{headers:{'content-type':'application/json','content-length':String(9*1024*1024)}})));
+  await assert.rejects(fetchPublicHistory(async()=>new Response('x'.repeat(8*1024*1024+1),{headers:{'content-type':'application/json'}})));
+  await assert.rejects(fetchPublicHistory(async()=>new Response(JSON.stringify({...good,notes:'private note must not enter history'}),{headers:{'content-type':'application/json'}})));
+});
+test('hourly sync reads public history into ignored cache, preserves last good on failure',async()=>{
+  const root=await temp(),now=new Date('2026-10-17T00:00:00Z'),good=emptyHistory();
+  await atomicJSON(path.join(root,'data/prediction-history.json'),good);
+  let calls=0;const fetcher=async()=>{calls++;return good;};
+  assert.equal((await syncPublicHistory({root,now,fetcher})).ok,true);
+  assert.equal((await syncPublicHistory({root,now,fetcher})).skipped,true);assert.equal(calls,1);
+  const before=await readFile(path.join(root,'.cache/public-history.json'),'utf8');
+  assert.equal((await syncPublicHistory({root,now:new Date(+now+3600000),fetcher:async()=>{throw new Error('never reveal upstream details');}})).ok,false);
+  assert.equal(await readFile(path.join(root,'.cache/public-history.json'),'utf8'),before);
+  assert.deepEqual(await readPublicHistory(root),good);assert.equal((await readHistoryStatus(root)).ok,false);
+  assert.ok(!JSON.stringify(await readHistoryStatus(root)).includes('upstream'));
+  assert.equal(await readFile(path.join(root,'data/prediction-history.json'),'utf8'),JSON.stringify(good,null,2)+'\n');
+});

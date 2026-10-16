@@ -33,7 +33,8 @@ export function normalizeEvent(e) {
   return {id:e.id,startTime:e.startTime,stage:rounds[e.blockName],round:e.blockName,bestOf:e.match.strategy.count,state,teams};
 }
 export function validateSnapshot(s) {
-  if (!s || s.schemaVersion!==2 || s.source!==SOURCE || s.tournament!==TOURNAMENT || !isoOK(s.fetchedAt) || s.sourcePublishedAt!==null || !/^[a-f0-9]{64}$/.test(s.sourceHash) || !Array.isArray(s.matches) || s.matches.length<1 || s.matches.length>300 || !Array.isArray(s.ratings) || s.ratings.length>150 || typeof s.coverage?.hasMore!=='boolean') throw new Error('Invalid schedule snapshot');
+  if (!s || ![2,3].includes(s.schemaVersion) || s.source!==SOURCE || s.tournament!==TOURNAMENT || !isoOK(s.fetchedAt) || s.sourcePublishedAt!==null || !/^[a-f0-9]{64}$/.test(s.sourceHash) || !Array.isArray(s.matches) || s.matches.length<1 || s.matches.length>300 || !Array.isArray(s.ratings) || s.ratings.length>150 || typeof s.coverage?.hasMore!=='boolean') throw new Error('Invalid schedule snapshot');
+  if(Object.keys(s).some(k=>!['schemaVersion','source','tournament','fetchedAt','sourcePublishedAt','sourceHash','coverage','matches','ratings'].includes(k)))throw new Error('Unexpected schedule field');
   const ids=new Set();
   for (const m of s.matches) {
     const {observedAt,...fields}=m;
@@ -45,8 +46,12 @@ export function validateSnapshot(s) {
   for (const r of s.ratings) {
     if (!idOK(r.id) || ratingIds.has(r.id) || !textOK(r.code,12) || !Number.isInteger(r.elo) || r.elo<100 || r.elo>4000 || !Number.isInteger(r.rank) || r.rank<1 || r.rank>500 || !Number.isInteger(r.gpr) || r.gpr<0 || r.gpr>5000 || !isoOK(r.calculatedAt) || !r.calculatedAt.startsWith('2026-') || Date.parse(r.calculatedAt)>Date.parse(s.fetchedAt) || ![r.wins,r.losses,r.mapWins,r.mapLosses].every(n=>Number.isInteger(n)&&n>=0&&n<=500)) throw new Error('Invalid team rating');
     ratingIds.add(r.id);
+    const allowed=['id','code','elo','gpr','rank','calculatedAt','wins','losses','mapWins','mapLosses',...(s.schemaVersion===3?['observedAt','sourceHash']:[])];
+    if(Object.keys(r).some(k=>!allowed.includes(k)))throw new Error('Unexpected rating field');
+    if(s.schemaVersion===3 && !((r.observedAt===null && r.sourceHash===null) || (isoOK(r.observedAt) && Date.parse(r.observedAt)<=Date.parse(s.fetchedAt) && Date.parse(r.calculatedAt)<=Date.parse(r.observedAt) && /^[a-f0-9]{64}$/.test(r.sourceHash))))throw new Error('Invalid rating provenance');
   }
-  return s;
+  // Legacy rows have unknown provenance; never invent an observation time for them.
+  return s.schemaVersion===2?{...s,schemaVersion:3,ratings:s.ratings.map(r=>({...r,observedAt:null,sourceHash:null}))}:s;
 }
 export function predictionAvailability(m, now=Date.now()) {
   if (m.state==='completed') return 'completed';
