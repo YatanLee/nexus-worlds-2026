@@ -2,9 +2,9 @@
   "schemaVersion": 3,
   "source": "https://lolesports.com/en-US/leagues/worlds",
   "tournament": "115660540725177488",
-  "fetchedAt": "2026-10-16T16:09:39.400Z",
+  "fetchedAt": "2026-10-17T01:19:08.089Z",
   "sourcePublishedAt": null,
-  "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a",
+  "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118",
   "coverage": {
     "hasMore": true
   },
@@ -32,7 +32,7 @@
           "wins": 2
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660588583040710",
@@ -57,7 +57,7 @@
           "wins": 0
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660588583171790",
@@ -65,14 +65,14 @@
       "stage": "playin",
       "round": "Play-Ins",
       "bestOf": 5,
-      "state": "scheduled",
+      "state": "completed",
       "teams": [
         {
           "id": "111692118851466302",
           "code": "KC",
           "name": "Karmine Corp",
           "region": "EMEA",
-          "wins": 0
+          "wins": 3
         },
         {
           "id": "107251245690956393",
@@ -82,7 +82,7 @@
           "wins": 0
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660588583171794",
@@ -90,24 +90,24 @@
       "stage": "playin",
       "round": "Play-Ins",
       "bestOf": 5,
-      "state": "scheduled",
+      "state": "completed",
       "teams": [
-        {
-          "id": "98767991877340524",
-          "code": "C9",
-          "name": "Cloud9 Kia",
-          "region": "NA",
-          "wins": 0
-        },
         {
           "id": "100205576309502431",
           "code": "FUR",
           "name": "FURIA",
           "region": "BR",
-          "wins": 0
+          "wins": 3
+        },
+        {
+          "id": "98767991877340524",
+          "code": "C9",
+          "name": "Cloud9 Kia",
+          "region": "NA",
+          "wins": 1
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660588583171798",
@@ -118,21 +118,21 @@
       "state": "scheduled",
       "teams": [
         {
-          "id": "0",
-          "code": "TBD",
-          "name": "TBD",
-          "region": "—",
-          "wins": null
+          "id": "107251245690956393",
+          "code": "MVK",
+          "name": "MVK Esports",
+          "region": "PAC",
+          "wins": 0
         },
         {
-          "id": "0",
-          "code": "TBD",
-          "name": "TBD",
-          "region": "—",
-          "wins": null
+          "id": "100205576309502431",
+          "code": "FUR",
+          "name": "FURIA",
+          "region": "BR",
+          "wins": 0
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "116299649498303884",
@@ -150,14 +150,14 @@
           "wins": null
         },
         {
-          "id": "0",
-          "code": "TBD",
-          "name": "TBD",
-          "region": "—",
-          "wins": null
+          "id": "111692118851466302",
+          "code": "KC",
+          "name": "Karmine Corp",
+          "region": "EMEA",
+          "wins": 0
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095005",
@@ -182,7 +182,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095007",
@@ -207,7 +207,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095009",
@@ -232,7 +232,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095011",
@@ -257,7 +257,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095013",
@@ -282,7 +282,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095015",
@@ -307,7 +307,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095017",
@@ -332,7 +332,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095019",
@@ -357,7 +357,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095021",
@@ -382,7 +382,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095023",
@@ -407,7 +407,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095025",
@@ -432,7 +432,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095027",
@@ -457,7 +457,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095029",
@@ -482,7 +482,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095031",
@@ -507,7 +507,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095033",
@@ -532,7 +532,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095035",
@@ -557,7 +557,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095045",
@@ -582,7 +582,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095047",
@@ -607,7 +607,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095037",
@@ -632,7 +632,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095041",
@@ -657,7 +657,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095049",
@@ -682,7 +682,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095051",
@@ -707,7 +707,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095053",
@@ -732,7 +732,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095057",
@@ -757,7 +757,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095061",
@@ -782,7 +782,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095065",
@@ -807,7 +807,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095069",
@@ -832,7 +832,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095073",
@@ -857,7 +857,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095077",
@@ -882,7 +882,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095081",
@@ -907,7 +907,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095085",
@@ -932,7 +932,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095089",
@@ -957,7 +957,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095093",
@@ -982,7 +982,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095097",
@@ -1007,7 +1007,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095103",
@@ -1032,7 +1032,7 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
     },
     {
       "id": "115660540726095109",
@@ -1057,7 +1057,57 @@
           "wins": null
         }
       ],
-      "observedAt": "2026-10-16T16:09:39.400Z"
+      "observedAt": "2026-10-17T01:19:08.089Z"
+    },
+    {
+      "id": "115660540726095115",
+      "startTime": "2026-11-06T22:00:00Z",
+      "stage": "knockout",
+      "round": "Quarterfinals",
+      "bestOf": 5,
+      "state": "scheduled",
+      "teams": [
+        {
+          "id": "0",
+          "code": "TBD",
+          "name": "TBD",
+          "region": "—",
+          "wins": null
+        },
+        {
+          "id": "0",
+          "code": "TBD",
+          "name": "TBD",
+          "region": "—",
+          "wins": null
+        }
+      ],
+      "observedAt": "2026-10-17T01:19:08.089Z"
+    },
+    {
+      "id": "115660540726095121",
+      "startTime": "2026-11-07T22:00:00Z",
+      "stage": "knockout",
+      "round": "Semifinals",
+      "bestOf": 5,
+      "state": "scheduled",
+      "teams": [
+        {
+          "id": "0",
+          "code": "TBD",
+          "name": "TBD",
+          "region": "—",
+          "wins": null
+        },
+        {
+          "id": "0",
+          "code": "TBD",
+          "name": "TBD",
+          "region": "—",
+          "wins": null
+        }
+      ],
+      "observedAt": "2026-10-17T01:19:08.089Z"
     }
   ],
   "ratings": [
@@ -1067,13 +1117,13 @@
       "elo": 1578,
       "gpr": 1540,
       "rank": 1,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 28,
       "losses": 13,
       "mapWins": 72,
       "mapLosses": 47,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "100205573495116443",
@@ -1081,13 +1131,13 @@
       "elo": 1552,
       "gpr": 1519,
       "rank": 2,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 33,
       "losses": 9,
       "mapWins": 81,
       "mapLosses": 29,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404853854212",
@@ -1095,27 +1145,27 @@
       "elo": 1551,
       "gpr": 1513,
       "rank": 3,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 48,
       "losses": 11,
       "mapWins": 122,
       "mapLosses": 50,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98767991926151025",
       "code": "G2",
       "elo": 1528,
-      "gpr": 1475,
+      "gpr": 1476,
       "rank": 4,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 33,
       "losses": 15,
       "mapWins": 79,
       "mapLosses": 41,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98767991853197861",
@@ -1123,27 +1173,27 @@
       "elo": 1491,
       "gpr": 1471,
       "rank": 5,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 29,
       "losses": 16,
       "mapWins": 80,
       "mapLosses": 50,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566405941863385",
       "code": "LYON",
       "elo": 1478,
-      "gpr": 1432,
+      "gpr": 1430,
       "rank": 6,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 25,
       "losses": 11,
       "mapWins": 72,
       "mapLosses": 39,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "100725845018863243",
@@ -1151,13 +1201,13 @@
       "elo": 1414,
       "gpr": 1409,
       "rank": 7,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 27,
       "losses": 16,
       "mapWins": 66,
       "mapLosses": 55,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404856367466",
@@ -1165,69 +1215,69 @@
       "elo": 1421,
       "gpr": 1409,
       "rank": 7,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 32,
       "losses": 18,
       "mapWins": 81,
       "mapLosses": 57,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
+    },
+    {
+      "id": "111692118851466302",
+      "code": "KC",
+      "elo": 1412,
+      "gpr": 1383,
+      "rank": 9,
+      "calculatedAt": "2026-10-16T17:00:00Z",
+      "wins": 34,
+      "losses": 13,
+      "mapWins": 75,
+      "mapLosses": 43,
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404579461230",
       "code": "KT",
       "elo": 1379,
       "gpr": 1381,
-      "rank": 9,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "rank": 10,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 20,
       "losses": 18,
       "mapWins": 50,
       "mapLosses": 52,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
-    },
-    {
-      "id": "111692118851466302",
-      "code": "KC",
-      "elo": 1406,
-      "gpr": 1377,
-      "rank": 10,
-      "calculatedAt": "2026-10-15T22:00:00Z",
-      "wins": 33,
-      "losses": 13,
-      "mapWins": 74,
-      "mapLosses": 43,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98926509885559666",
       "code": "TLAW",
       "elo": 1409,
-      "gpr": 1376,
+      "gpr": 1375,
       "rank": 11,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 22,
       "losses": 10,
       "mapWins": 57,
       "mapLosses": 32,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "113661839307879869",
       "code": "TSW",
       "elo": 1438,
-      "gpr": 1372,
+      "gpr": 1373,
       "rank": 12,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 26,
       "losses": 6,
       "mapWins": 66,
       "mapLosses": 29,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404854685458",
@@ -1235,13 +1285,13 @@
       "elo": 1364,
       "gpr": 1364,
       "rank": 13,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 27,
       "losses": 24,
       "mapWins": 76,
       "mapLosses": 64,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "101388912914513220",
@@ -1249,13 +1299,13 @@
       "elo": 1347,
       "gpr": 1350,
       "rank": 14,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 21,
       "losses": 13,
       "mapWins": 54,
       "mapLosses": 39,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404848691211",
@@ -1263,69 +1313,69 @@
       "elo": 1344,
       "gpr": 1348,
       "rank": 15,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 18,
       "losses": 25,
       "mapWins": 57,
       "mapLosses": 67,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98767991877340524",
       "code": "C9",
-      "elo": 1369,
-      "gpr": 1344,
+      "elo": 1366,
+      "gpr": 1341,
       "rank": 16,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 20,
       "losses": 8,
       "mapWins": 50,
-      "mapLosses": 32,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "mapLosses": 33,
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98926509892121852",
       "code": "FLY",
       "elo": 1346,
-      "gpr": 1326,
+      "gpr": 1325,
       "rank": 17,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 11,
       "losses": 14,
       "mapWins": 33,
       "mapLosses": 37,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "107700199633958891",
       "code": "CFO",
       "elo": 1370,
-      "gpr": 1317,
+      "gpr": 1319,
       "rank": 18,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 12,
       "losses": 14,
       "mapWins": 37,
       "mapLosses": 42,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "103461966965149786",
       "code": "MKOI",
       "elo": 1330,
-      "gpr": 1316,
+      "gpr": 1317,
       "rank": 19,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 22,
       "losses": 18,
       "mapWins": 51,
       "mapLosses": 43,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404853058754",
@@ -1333,13 +1383,13 @@
       "elo": 1303,
       "gpr": 1315,
       "rank": 20,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 16,
       "losses": 20,
       "mapWins": 47,
       "mapLosses": 53,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404852189289",
@@ -1347,13 +1397,13 @@
       "elo": 1298,
       "gpr": 1311,
       "rank": 21,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 29,
       "losses": 25,
       "mapWins": 81,
       "mapLosses": 79,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98767991887166787",
@@ -1361,97 +1411,97 @@
       "elo": 1263,
       "gpr": 1283,
       "rank": 22,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 17,
       "losses": 31,
       "mapWins": 53,
       "mapLosses": 80,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98767991954244555",
       "code": "GAM",
       "elo": 1313,
-      "gpr": 1272,
+      "gpr": 1273,
       "rank": 23,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 14,
       "losses": 11,
       "mapWins": 40,
       "mapLosses": 33,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
+    },
+    {
+      "id": "107251245690956393",
+      "code": "MVK",
+      "elo": 1301,
+      "gpr": 1264,
+      "rank": 24,
+      "calculatedAt": "2026-10-16T17:00:00Z",
+      "wins": 13,
+      "losses": 13,
+      "mapWins": 38,
+      "mapLosses": 40,
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404846951820",
       "code": "LGD",
       "elo": 1235,
       "gpr": 1260,
-      "rank": 24,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "rank": 25,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 15,
       "losses": 18,
       "mapWins": 44,
       "mapLosses": 53,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99322214695067838",
       "code": "VIT",
       "elo": 1255,
-      "gpr": 1256,
-      "rank": 25,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "gpr": 1257,
+      "rank": 26,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 23,
       "losses": 13,
       "mapWins": 43,
       "mapLosses": 35,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
+    },
+    {
+      "id": "107700204561086446",
+      "code": "DCG",
+      "elo": 1291,
+      "gpr": 1256,
+      "rank": 27,
+      "calculatedAt": "2026-10-16T17:00:00Z",
+      "wins": 16,
+      "losses": 14,
+      "mapWins": 48,
+      "mapLosses": 49,
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "100725845022060229",
       "code": "BFX",
       "elo": 1220,
       "gpr": 1254,
-      "rank": 26,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "rank": 28,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 19,
       "losses": 24,
       "mapWins": 57,
       "mapLosses": 65,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
-    },
-    {
-      "id": "107700204561086446",
-      "code": "DCG",
-      "elo": 1291,
-      "gpr": 1254,
-      "rank": 26,
-      "calculatedAt": "2026-10-15T22:00:00Z",
-      "wins": 16,
-      "losses": 14,
-      "mapWins": 48,
-      "mapLosses": 49,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
-    },
-    {
-      "id": "107251245690956393",
-      "code": "MVK",
-      "elo": 1282,
-      "gpr": 1247,
-      "rank": 28,
-      "calculatedAt": "2026-10-15T22:00:00Z",
-      "wins": 12,
-      "losses": 13,
-      "mapWins": 35,
-      "mapLosses": 40,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404850008779",
@@ -1459,27 +1509,27 @@
       "elo": 1187,
       "gpr": 1222,
       "rank": 29,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 11,
       "losses": 9,
       "mapWins": 29,
       "mapLosses": 24,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98767991866488695",
       "code": "FNC",
       "elo": 1206,
-      "gpr": 1217,
+      "gpr": 1218,
       "rank": 30,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 11,
       "losses": 20,
       "mapWins": 25,
       "mapLosses": 35,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "102747101565183056",
@@ -1487,41 +1537,41 @@
       "elo": 1172,
       "gpr": 1215,
       "rank": 31,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 12,
       "losses": 22,
       "mapWins": 34,
       "mapLosses": 52,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
-    },
-    {
-      "id": "115688562107799886",
-      "code": "SEN",
-      "elo": 1202,
-      "gpr": 1211,
-      "rank": 32,
-      "calculatedAt": "2026-10-15T22:00:00Z",
-      "wins": 10,
-      "losses": 13,
-      "mapWins": 29,
-      "mapLosses": 37,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "101383793572656373",
       "code": "GX",
       "elo": 1197,
-      "gpr": 1210,
-      "rank": 33,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "gpr": 1211,
+      "rank": 32,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 19,
       "losses": 18,
       "mapWins": 40,
       "mapLosses": 43,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
+    },
+    {
+      "id": "115688562107799886",
+      "code": "SEN",
+      "elo": 1202,
+      "gpr": 1210,
+      "rank": 33,
+      "calculatedAt": "2026-10-16T17:00:00Z",
+      "wins": 10,
+      "losses": 13,
+      "mapWins": 29,
+      "mapLosses": 37,
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "105505619546859895",
@@ -1529,55 +1579,55 @@
       "elo": 1164,
       "gpr": 1209,
       "rank": 34,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 10,
       "losses": 25,
       "mapWins": 37,
       "mapLosses": 56,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
-    },
-    {
-      "id": "100205576309502431",
-      "code": "FUR",
-      "elo": 1297,
-      "gpr": 1205,
-      "rank": 35,
-      "calculatedAt": "2026-10-15T22:00:00Z",
-      "wins": 24,
-      "losses": 12,
-      "mapWins": 56,
-      "mapLosses": 35,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "114868016111590239",
       "code": "NAVI",
       "elo": 1190,
-      "gpr": 1204,
-      "rank": 36,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "gpr": 1205,
+      "rank": 35,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 20,
       "losses": 15,
       "mapWins": 38,
       "mapLosses": 37,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
+    },
+    {
+      "id": "100205576309502431",
+      "code": "FUR",
+      "elo": 1288,
+      "gpr": 1196,
+      "rank": 36,
+      "calculatedAt": "2026-10-16T17:00:00Z",
+      "wins": 24,
+      "losses": 13,
+      "mapWins": 56,
+      "mapLosses": 38,
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "111504538396430510",
       "code": "SR",
       "elo": 1185,
-      "gpr": 1197,
-      "rank": 37,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "gpr": 1196,
+      "rank": 36,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 7,
       "losses": 15,
       "mapWins": 20,
       "mapLosses": 39,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "101388912911039804",
@@ -1585,13 +1635,13 @@
       "elo": 1152,
       "gpr": 1194,
       "rank": 38,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 7,
       "losses": 23,
       "mapWins": 27,
       "mapLosses": 54,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98767991882270868",
@@ -1599,125 +1649,125 @@
       "elo": 1135,
       "gpr": 1180,
       "rank": 39,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 10,
       "losses": 20,
       "mapWins": 27,
       "mapLosses": 51,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "109480204628225868",
       "code": "LOS",
       "elo": 1263,
-      "gpr": 1177,
+      "gpr": 1176,
       "rank": 40,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 23,
       "losses": 9,
       "mapWins": 53,
       "mapLosses": 33,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "103535282119620510",
       "code": "SHG",
       "elo": 1187,
-      "gpr": 1171,
+      "gpr": 1173,
       "rank": 41,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 9,
       "losses": 13,
       "mapWins": 26,
       "mapLosses": 34,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566408221961358",
       "code": "RED",
       "elo": 1251,
-      "gpr": 1168,
+      "gpr": 1166,
       "rank": 42,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 18,
       "losses": 14,
       "mapWins": 41,
       "mapLosses": 36,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "105397404796640412",
       "code": "LOUD",
       "elo": 1247,
-      "gpr": 1165,
+      "gpr": 1163,
       "rank": 43,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 18,
       "losses": 15,
       "mapWins": 46,
       "mapLosses": 37,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "110428362822825796",
       "code": "DSG",
       "elo": 1144,
-      "gpr": 1164,
-      "rank": 44,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "gpr": 1163,
+      "rank": 43,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 5,
       "losses": 14,
       "mapWins": 14,
       "mapLosses": 33,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404585387054",
       "code": "KRX",
       "elo": 1107,
       "gpr": 1163,
-      "rank": 45,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "rank": 43,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 11,
       "losses": 25,
       "mapWins": 37,
       "mapLosses": 59,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566408219409348",
       "code": "VKS",
       "elo": 1224,
-      "gpr": 1146,
+      "gpr": 1145,
       "rank": 46,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 13,
       "losses": 15,
       "mapWins": 27,
       "mapLosses": 36,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "109675490370327425",
       "code": "GZ",
       "elo": 1151,
-      "gpr": 1142,
+      "gpr": 1144,
       "rank": 47,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 8,
       "losses": 14,
       "mapWins": 27,
       "mapLosses": 36,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404581868574",
@@ -1725,27 +1775,27 @@
       "elo": 1076,
       "gpr": 1139,
       "rank": 48,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 10,
       "losses": 26,
       "mapWins": 28,
       "mapLosses": 60,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "107563714667537640",
       "code": "SHFT",
       "elo": 1102,
-      "gpr": 1134,
+      "gpr": 1135,
       "rank": 49,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 7,
       "losses": 22,
       "mapWins": 16,
       "mapLosses": 38,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "99566404845279652",
@@ -1753,27 +1803,13 @@
       "elo": 1076,
       "gpr": 1133,
       "rank": 50,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 4,
       "losses": 9,
       "mapWins": 12,
       "mapLosses": 22,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
-    },
-    {
-      "id": "99566408217955692",
-      "code": "PAIN",
-      "elo": 1196,
-      "gpr": 1124,
-      "rank": 51,
-      "calculatedAt": "2026-10-15T22:00:00Z",
-      "wins": 6,
-      "losses": 20,
-      "mapWins": 19,
-      "mapLosses": 39,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "103461966986776720",
@@ -1781,97 +1817,111 @@
       "elo": 1064,
       "gpr": 1124,
       "rank": 51,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 3,
       "losses": 8,
       "mapWins": 9,
       "mapLosses": 16,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
+    },
+    {
+      "id": "99566408217955692",
+      "code": "PAIN",
+      "elo": 1196,
+      "gpr": 1122,
+      "rank": 52,
+      "calculatedAt": "2026-10-16T17:00:00Z",
+      "wins": 6,
+      "losses": 20,
+      "mapWins": 19,
+      "mapLosses": 39,
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "101383793567806688",
       "code": "SK",
       "elo": 1086,
-      "gpr": 1121,
-      "rank": 53,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "gpr": 1122,
+      "rank": 52,
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 8,
       "losses": 21,
       "mapWins": 17,
       "mapLosses": 35,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "98926509883054987",
       "code": "DIG",
       "elo": 1089,
-      "gpr": 1120,
+      "gpr": 1119,
       "rank": 54,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 1,
       "losses": 17,
       "mapWins": 8,
       "mapLosses": 33,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "100285330168091787",
       "code": "DFM",
       "elo": 1084,
-      "gpr": 1089,
+      "gpr": 1090,
       "rank": 55,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 1,
       "losses": 18,
       "mapWins": 7,
       "mapLosses": 39,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "109637393694097670",
       "code": "TH",
       "elo": 1042,
-      "gpr": 1086,
+      "gpr": 1087,
       "rank": 56,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 9,
       "losses": 22,
       "mapWins": 14,
       "mapLosses": 41,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "109480056092207899",
       "code": "FX",
       "elo": 1128,
-      "gpr": 1069,
+      "gpr": 1068,
       "rank": 57,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 8,
       "losses": 17,
       "mapWins": 21,
       "mapLosses": 34,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     },
     {
       "id": "107598699275015260",
       "code": "LEV",
       "elo": 1104,
-      "gpr": 1050,
+      "gpr": 1049,
       "rank": 58,
-      "calculatedAt": "2026-10-15T22:00:00Z",
+      "calculatedAt": "2026-10-16T17:00:00Z",
       "wins": 7,
       "losses": 19,
       "mapWins": 14,
       "mapLosses": 37,
-      "observedAt": "2026-10-16T16:09:39.400Z",
-      "sourceHash": "35dcfbe06ea15663a63090eee88d2e205ee9a9381c91fcd3d0a1d49f80d7769a"
+      "observedAt": "2026-10-17T01:19:08.089Z",
+      "sourceHash": "2749ff63e2a1626b15770d01c63c073a8649f727e5da42f07e7eac5112f29118"
     }
   ]
 }
