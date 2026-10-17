@@ -126,5 +126,5 @@ test('public history rejects stale or mismatched frozen provenance observations'
  ]) { const corrupt=structuredClone(baseline); mutate(corrupt); assert.throws(()=>validateHistory(corrupt)); }
 });
 test('local CLI rejects canonical history creation before it can write',async()=>{
- await assert.rejects(exec(process.execPath,['scripts/build-history.mjs'],{cwd:fileURLToPath(new URL('..',import.meta.url))}),error=>error.code===1&&/GitHub Actions/.test(error.stderr));
+ await assert.rejects(exec(process.execPath,['scripts/build-history.mjs'],{cwd:fileURLToPath(new URL('..',import.meta.url)),env:{...process.env,GITHUB_ACTIONS:'false'}}),error=>error.code===1&&/GitHub Actions/.test(error.stderr));
 });
