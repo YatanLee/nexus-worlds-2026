@@ -1,5 +1,15 @@
 # Release notes
 
+## 2.3.0 · Private prediction journal
+
+- Added browser-local exact-score predictions, reasons, Key Player observations and mystic choices with independent post-match reflections.
+- Lock pregame fields at scheduled start or live/completed state, retain team-ID score mapping, and detach changed fixture identities.
+- Added bounded local JSON backup/restore with atomic validation and keep-existing conflicts; imported private references never create official fixtures.
+- Preserve prior bookmarks/notes and persist personal scenario settings. Mobile journal controls use touch-friendly stacked layouts.
+- Keep locally corrected or non-final official results out of hit metrics until they agree with the latest canonical CI assessment; preserve all archived rows.
+
+Private journal data has no server write route and remains separate from public model history and health statistics. Local timestamps and imported files are not tamper-proof evidence.
+
 ## 2.2.0 · Model health and evidence freshness
 
 - Added a readonly model-health overview grouped by model version and BO, with explicit denominators, coverage periods and exclusion reasons.

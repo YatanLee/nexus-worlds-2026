@@ -169,7 +169,11 @@ export function evaluationsView(history,snapshot) {
     const row={matchId:baseline.eventId,modelVersion:baseline.modelVersion,baseline:{id:baseline.id,capturedAt:baseline.capturedAt,startTime:baseline.startTime,teamIds:baseline.teams.map(team=>team.id),teamCodes:baseline.teams.map(team=>team.code),bestOf:baseline.bestOf,top:baseline.forecast.top,win:baseline.forecast.win,modelVersion:baseline.modelVersion,runId:baseline.provenance.runId},status:'pending',reason:null,actual:null,exactHit:null,winnerHit:null,revisionCount:revisions.get(key)||0};
     if (!match) { if (snapshot?.coverage?.hasMore===false) {row.status='unverified';row.reason='fixture-missing';} return row; }
     if (fingerprint(match)!==baseline.fingerprint) {row.status='unverified';row.reason='fixture-changed';return row;}
-    const evaluation=evaluations.get(baseline.id); if (!evaluation) return row;
+    const evaluation=evaluations.get(baseline.id),currentActual=scoreFor(match,baseline);
+    if (!currentActual) {if(evaluation)row.reason='official-result-not-final';return row;}
+    if (!evaluation || JSON.stringify(evaluation.actual)!==JSON.stringify(currentActual)) {
+      row.reason='result-revision-pending';row.actual={a:currentActual[0].wins,b:currentActual[1].wins};return row;
+    }
     row.status='verified';row.actual={a:evaluation.actual[0].wins,b:evaluation.actual[1].wins};
     const top=baseline.forecast.top;
     if (top.length===1) row.exactHit=top[0].a===evaluation.actual[0].wins&&top[0].b===evaluation.actual[1].wins;

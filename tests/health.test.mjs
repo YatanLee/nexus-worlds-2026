@@ -90,6 +90,16 @@ test('model health exposes empty current-model groups with no history',()=>{
  assert.equal(output.groups.length,4);assert.equal(pick(output.groups,'elo-exact-score-v1').counts.official,1);
  assert.equal(pick(output.groups,'elo-exact-score-v1',3).counts.noBaseline,1);
 });
+
+test('a locally changed result stays outside metrics until the public correction is appended',()=>{
+ const base=buildHistory(emptyHistory(),snapshot(),provenance,new Date('2026-10-17T10:00:00Z'));
+ const first=buildHistory(base,snapshot({state:'completed',wins:[2,1],observedAt:'2026-10-17T13:00:00Z'}),{...provenance,runId:'12346'},new Date('2026-10-17T13:00:00Z'));
+ const local=snapshot({state:'completed',wins:[1,2],observedAt:'2026-10-17T14:00:00Z'});
+ const pending=pick(modelHealth(first,local).groups,'elo-exact-score-v1');
+ assert.equal(pending.counts.verified,0);assert.equal(pending.counts.pending,1);assert.equal(pending.probability.denominator,0);
+ const corrected=buildHistory(first,local,{...provenance,runId:'12347'},new Date('2026-10-17T14:00:00Z'));
+ assert.equal(pick(modelHealth(corrected,local).groups,'elo-exact-score-v1').probability.denominator,1);
+});
 test('model health retains official TBD fixtures in coverage without inventing a prediction',()=>{
  const incomplete=snapshot();
  incomplete.matches.push({id:'10000000003',startTime:'2026-10-18T12:00:00Z',observedAt:'2026-10-17T09:00:00Z',state:'scheduled',bestOf:5,teams:[{id:'0',code:'TBD',wins:0},{id:'20000000002',code:'BBB',wins:0}]});

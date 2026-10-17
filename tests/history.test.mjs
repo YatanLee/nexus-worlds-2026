@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {fileURLToPath} from 'node:url';
+import {mkdir,mkdtemp,readFile,readdir,writeFile} from 'node:fs/promises';
+import {writeHistoryFile} from '../scripts/build-history.mjs';
 import {assertAppendOnly,assertFreshPublication,buildHistory,emptyHistory,evaluationsView,selectLatestBaseline,validateHistory} from '../history.mjs';
+import {historyCard,historyHint} from '../history-ui.mjs';
 
 const now='2026-10-17T10:00:00Z';
 const sourceHash='a'.repeat(64), otherHash='b'.repeat(64);
@@ -127,4 +130,39 @@ test('public history rejects stale or mismatched frozen provenance observations'
 });
 test('local CLI rejects canonical history creation before it can write',async()=>{
  await assert.rejects(exec(process.execPath,['scripts/build-history.mjs'],{cwd:fileURLToPath(new URL('..',import.meta.url)),env:{...process.env,GITHUB_ACTIONS:'false'}}),error=>error.code===1&&/GitHub Actions/.test(error.stderr));
+});
+
+test('local official corrections wait for canonical revisions instead of verifying stale results',()=>{
+ const base=buildHistory(emptyHistory(),snapshot(),provenance,new Date(now));
+ const completed=snapshot({state:'completed',wins:[2,1],observedAt:'2026-10-17T13:00:00Z'});
+ const first=buildHistory(base,completed,{...provenance,runId:'12346'},new Date('2026-10-17T13:00:00Z'));
+ const local=snapshot({state:'completed',wins:[1,2],observedAt:'2026-10-17T14:00:00Z'});
+ local.matches[0].teams.reverse();
+ const before=JSON.stringify(first),pending=evaluationsView(first,local).rows[0];
+ assert.equal(pending.status,'pending');assert.equal(pending.reason,'result-revision-pending');
+ assert.deepEqual(pending.actual,{a:1,b:2});assert.equal(pending.exactHit,null);assert.equal(pending.winnerHit,null);
+ const markup=historyCard(local.matches[0],pending);
+ assert.match(markup,/尚待對齊/);assert.doesNotMatch(markup,/history-verdicts/);
+ assert.match(historyHint(pending),/不計入統計/);assert.equal(JSON.stringify(first),before);
+ const corrected=buildHistory(first,local,{...provenance,runId:'12347'},new Date('2026-10-17T14:00:00Z'));
+ assert.equal(corrected.evaluations.length,2);assert.equal(evaluationsView(corrected,local).rows[0].status,'verified');
+ const nonfinal=structuredClone(local);nonfinal.matches[0].state='live';nonfinal.matches[0].teams.forEach(team=>team.wins=0);
+ const waiting=evaluationsView(corrected,nonfinal).rows[0];
+ assert.equal(waiting.status,'pending');assert.equal(waiting.reason,'official-result-not-final');assert.equal(waiting.actual,null);
+});
+
+test('publication rejects an oversized pretty ledger before replacing the previous file',async()=>{
+ const seed=buildHistory(emptyHistory(),snapshot(),provenance,new Date(now));
+ const oversized=structuredClone(seed);
+ oversized.baselines=Array.from({length:5000},(_,index)=>{
+  const baseline=structuredClone(seed.baselines[0]),runId=String(90000000000+index);
+  baseline.provenance.runId=runId;baseline.id=`${runId}:${baseline.eventId}:${baseline.modelVersion}`;return baseline;
+ });
+ assert.ok(Buffer.byteLength(JSON.stringify(oversized))<8*1024*1024);
+ assert.ok(Buffer.byteLength(JSON.stringify(oversized,null,2)+'\n')>8*1024*1024);
+ const cache=new URL('../.cache/',import.meta.url);await mkdir(cache,{recursive:true});
+ const directory=await mkdtemp(fileURLToPath(new URL('history-writer-',cache))),file=`${directory}/history.json`;
+ await writeFile(file,'previous public ledger');
+ await assert.rejects(writeHistoryFile(file,oversized),/Serialized public history exceeds/);
+ assert.equal(await readFile(file,'utf8'),'previous public ledger');assert.deepEqual(await readdir(directory),['history.json']);
 });
