@@ -1,5 +1,14 @@
 # Release notes
 
+## 2.2.0 · Model health and evidence freshness
+
+- Added a readonly model-health overview grouped by model version and BO, with explicit denominators, coverage periods and exclusion reasons.
+- Aggregate hit rates and probability errors remain hidden below 20 eligible matches per metric/group. Tied top scores and even winner probabilities have separate eligibility rules.
+- Displayed rating calculation versus source observation times, recent official team results and lagged-rating warnings; manual player observations older than seven days require review.
+- Confirmed October17 Taiwan-time results KC3–0MVK and FUR3–1C9 from the official source. Future fixture MVK–FUR is confirmed for October18 02:00 Taiwan time. Pregame history remains immutable.
+
+The v2.1 main publication was verified after isolating a local-CLI test from inherited CI identity. First canonical run38990327599 published one eligible future baseline; earlier completed matches remain unrecorded.
+
 ## 2.1.0 · Auditable pregame history
 
 - Added CI-only immutable baseline revisions, frozen rating/source provenance, deterministic model replay and latest eligible pregame selection per event/model.
