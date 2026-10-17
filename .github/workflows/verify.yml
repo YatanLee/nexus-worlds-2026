@@ -26,6 +26,8 @@ jobs:
           node --check health.mjs
           node --check health-ui.mjs
           node --check freshness.mjs
+          node --check journal.mjs
+          node --check journal-ui.mjs
           node --check scripts/build-history.mjs
           node --check scripts/check-history-publication.mjs
           node --check scripts/update-schedule.mjs

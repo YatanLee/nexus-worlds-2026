@@ -1,7 +1,7 @@
 import {readFile, rename, writeFile} from 'node:fs/promises';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {resolve} from 'node:path';
-import {buildHistory, emptyHistory} from '../history.mjs';
+import {buildHistory, emptyHistory, MAX_HISTORY_BYTES, validateHistory} from '../history.mjs';
 
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
 const schedulePath=resolve(root,'data/schedule.json');
@@ -12,16 +12,19 @@ export function ciProvenance(env=process.env) {
 }
 function requiredFrom(env,name,pattern) { const value=env[name]; if(!value||!pattern.test(value)) throw new Error(`Missing or invalid ${name}`); return value; }
 async function readJson(path, fallback) { try { return JSON.parse(await readFile(path,'utf8')); } catch (error) { if (error.code==='ENOENT') return fallback; throw error; } }
-async function atomicJson(path, value) {
+export async function writeHistoryFile(path, value) {
+  validateHistory(value);
+  const payload=`${JSON.stringify(value,null,2)}\n`;
+  if (Buffer.byteLength(payload,'utf8')>MAX_HISTORY_BYTES) throw new Error('Serialized public history exceeds size cap');
   const temp=`${path}.${process.pid}.tmp`;
-  await writeFile(temp,`${JSON.stringify(value,null,2)}\n`,{encoding:'utf8',mode:0o600});
+  await writeFile(temp,payload,{encoding:'utf8',mode:0o600});
   await rename(temp,path);
 }
 export async function main(env=process.env, now=new Date()) {
   const provenance=ciProvenance(env);
   const [schedule,previous]=await Promise.all([readJson(schedulePath),readJson(historyPath,emptyHistory())]);
   const next=buildHistory(previous,schedule,provenance,now);
-  if (JSON.stringify(next)!==JSON.stringify(previous)) await atomicJson(historyPath,next);
+  if (JSON.stringify(next)!==JSON.stringify(previous)) await writeHistoryFile(historyPath,next);
   return next;
 }
 if (process.argv[1] && import.meta.url===pathToFileURL(resolve(process.argv[1])).href) main().catch(error=>{console.error(error.message);process.exitCode=1;});
