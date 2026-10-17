@@ -86,6 +86,16 @@ p = 1 / (1 + 10^((EloB - EloA - userAdjustment) / 400))
 
 日誌時間及鎖定是本機工作流程，依賴裝置時鐘與可編輯的私人檔案，不作為不可竄改的賽前證據。正式公開封存仍只由 main CI 建立。
 
+## 歷史玄學脈絡（v2.4）
+
+玄學分為「隊伍經歷」、「賽區記憶」、「世界賽特殊劇本」與「本屆賽果脈絡」。每則案例分開呈現已知事實、觀賽解讀、適用範圍、反例及來源查核日。同組織案例以官方隊伍 ID 對應，舊陣容與現在能力不畫等號；同賽區的故事不冒充本隊成績。PAC 不推定為台灣或越南，也不繼承 TPA 的冠軍。
+
+首批八則人工整理案例：C9 2018 資格賽、G2 2018／2019、T1 2023、Gen.G 2024 MSI、KaBuM 2014、IG 2018、DRX 2022 逆轉及 TPA 2012。KaBuM 案例使用 ge / Globo 次級媒體回顧並明確標示，其他取自 Riot 官方資料；卡片均附連結。這是精選資料集，沒有收錄不代表沒有該隊歷史，也不宣稱提供完整外戰統計。「外戰外行」只作待檢驗的印象，不能當成永久標籤。
+
+保留原有三個私人主題 ID。黑馬依未調整的 Elo 基準選弱勢方，五五波不強選；大賽記憶依唯一具已核實組織案例的一方，否則參考本屆前次交手勝方；氣勢延續須雙方都有近期已確認結果，且一方最近獲勝、另一方最近落敗時才給方向。兩邊同勝／同負或證據不足時不產生該方向的比分。每個比分都是主觀的打滿獲勝劇本，並未由歷史資料估計機率，不會改變專業模型、Key Player 或公開統計。情境滑桿也不改變歷史與玄學方向。
+
+本屆脈絡只採最近 30 天、於目前時間及本場開賽前已觀察到的合法官方賽果，按隊伍 ID 對照左右順序。開賽後才取得的結果／修訂不拿來重建賽前劇本；已結束、已開始、TBD 或來源不足的場次仍可讀歷史，但不補寫賽前比分。這裡是當下閱讀工具，不是不可變的賽前封存。資料分頁不完整時可能缺少較近賽果。
+
 ## 資料與權利
 
 - [Riot 官方賽程與 Global Power Rankings](https://lolesports.com/en-US/leagues/worlds)
@@ -94,7 +104,7 @@ p = 1 / (1 + 10^((EloB - EloA - userAdjustment) / 400))
 - [Karmine Corp 官方名單](https://www.karminecorp.fr/en/pages/nos-joueurs-league-of-legends)
 - [FURIA 官方隊伍](https://us.furia.gg/teams/lol)
 - [MVK 次級名單](https://mid.gg/esports/teams/mvk-esports)
-- [DRX: The Rise](https://lolesports.com/en-US/news/drx-the-rise)
+- [Deft 的 2022 世界賽回顧](https://lolesports.com/en-US/lolesports/news/making-of-a-god-behind-the-scenes-of-deft-s-worlds-2022)
 - [2023 世界冠軍 T1](https://www.leagueoflegends.com/ko-kr/news/announcements/2023-worlds-champion-t1/)
 
 選手觀察為人工查核，非每日自動更新；查核日顯示於卡片。新對手缺少核實名單時顯示待確認。本工具不隸屬 Riot Games 或戰隊，隊名屬各權利人；使用文字縮寫，無官方 Logo。主視覺為原創生成圖像，非官方素材。
@@ -104,6 +114,9 @@ p = 1 / (1 + 10^((EloB - EloA - userAdjustment) / 400))
 ```text
 app.mjs                    介面、互動、收藏與本機筆記
 model.mjs                  Elo、合法終局、獨立玄學劇本
+mystic.mjs                 玄學適用範圍、賽前截止與近期交手
+mystic-data.mjs            有來源的人工歷史案例
+mystic-ui.mjs              歷史證據卡、反例與劇本介面
 schedule.mjs               共用驗證、台灣時間與預測可用性
 crawler.mjs                限定來源擷取、解析、驗證、原子快照
 scripts/update-schedule.mjs 手動／CI 更新入口
@@ -117,4 +130,4 @@ server.mjs                 loopback 靜態檔案及唯讀 API
 
 CI 執行語法檢查、測試與差異格式檢查。每日寫入工作只具該 job 的 `contents:write`，不在 PR 執行，checkout 不保存憑證，暫存路徑僅限公開賽程及模型歷史兩個 JSON 檔；推送不覆寫遠端歷史。發布保護會對照原始 checkout commit，連同新建紀錄在提交／推送前重新檢查截止時間。
 
-`npm run check:public` 會檢查候選文字檔的已知密鑰格式及不應公開的路徑，只列檔名和類型，不輸出匹配內容；此檢查不保證識別所有敏感資訊。已加入一般驗證與每日更新 CI。驗收證據見 [v2](DELIVERY-v2.md)、[v2.1](DELIVERY-v2.1.md)、[v2.2](DELIVERY-v2.2.md) 與 [v2.3 交付紀錄](DELIVERY-v2.3.md)。
+`npm run check:public` 會檢查候選文字檔的已知密鑰格式及不應公開的路徑，只列檔名和類型，不輸出匹配內容；此檢查不保證識別所有敏感資訊。已加入一般驗證與每日更新 CI。驗收證據見 [v2](DELIVERY-v2.md)、[v2.1](DELIVERY-v2.1.md)、[v2.2](DELIVERY-v2.2.md)、[v2.3](DELIVERY-v2.3.md) 與 [v2.4 交付紀錄](DELIVERY-v2.4.md)。
