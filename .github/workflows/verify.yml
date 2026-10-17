@@ -28,6 +28,9 @@ jobs:
           node --check freshness.mjs
           node --check journal.mjs
           node --check journal-ui.mjs
+          node --check mystic.mjs
+          node --check mystic-data.mjs
+          node --check mystic-ui.mjs
           node --check scripts/build-history.mjs
           node --check scripts/check-history-publication.mjs
           node --check scripts/update-schedule.mjs
