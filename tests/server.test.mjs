@@ -14,7 +14,7 @@ test('loopback readonly API and allowlisted static assets enforce boundaries',{t
   for(const route of ['','api/schedule','api/status','api/predictions','api/evaluations','api/model-health'])assert.equal((await fetch(url+route,{method:'POST',body:'test'})).status,405);
   for(const route of ['api/schedule','api/predictions','api/evaluations','api/model-health']) {const head=await fetch(url+route,{method:'HEAD'});assert.equal(head.status,200);assert.equal(await head.text(),'');}
   assert.equal((await fetch(url+'app.mjs')).status,200);assert.equal((await fetch(url+'schedule.mjs')).status,200);
-  for(const route of ['journal.mjs','journal-ui.mjs','mystic.mjs','mystic-data.mjs','mystic-ui.mjs'])assert.equal((await fetch(url+route)).status,200);
+  for(const route of ['journal.mjs','journal-ui.mjs','journal-draft.mjs','mystic.mjs','mystic-data.mjs','mystic-ui.mjs'])assert.equal((await fetch(url+route)).status,200);
   for(const route of ['api/journal','api/import','api/restore','nexus-worlds-v3.json'])assert.equal((await fetch(url+route)).status,404);
   assert.equal((await fetch(url+'api/journal',{method:'POST',body:'private draft'})).status,405);
  }finally{child.kill();await once(child,'exit');}
