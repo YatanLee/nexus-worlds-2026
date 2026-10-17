@@ -9,7 +9,7 @@ import {modelHealth} from './health.mjs';
 const root=fileURLToPath(new URL('.',import.meta.url));
 const port=Number(process.env.PORT||4196);
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp'};
-const publicFiles=new Set(['/','/index.html','/app.mjs','/data.mjs','/model.mjs','/schedule.mjs','/history-ui.mjs','/health-ui.mjs','/freshness.mjs','/journal.mjs','/journal-ui.mjs','/mystic.mjs','/mystic-data.mjs','/mystic-ui.mjs','/styles.css','/tokens.css','/favicon.svg','/assets/worlds-hero.webp']);
+const publicFiles=new Set(['/','/index.html','/app.mjs','/data.mjs','/model.mjs','/schedule.mjs','/history-ui.mjs','/health-ui.mjs','/freshness.mjs','/journal.mjs','/journal-ui.mjs','/journal-draft.mjs','/mystic.mjs','/mystic-data.mjs','/mystic-ui.mjs','/styles.css','/tokens.css','/favicon.svg','/assets/worlds-hero.webp']);
 const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"};
 const server=http.createServer(async(req,res)=>{
   const send=(status,type,body)=>{res.writeHead(status,{...headers,'Content-Type':type});res.end(req.method==='HEAD'?undefined:body);};

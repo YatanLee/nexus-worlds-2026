@@ -21,7 +21,14 @@ function sourceMarkup(source,icon){
  return `<footer class="mystic-card-source">${link}<span>${publisher} · ${type} · 查核 ${checkedAt}</span></footer>`;
 }
 
-function cardMarkup(card,icon){
+function quoteActions({lane,card,quoteStatus}){
+ const enabled=quoteStatus?.enabled===true;
+ const reason=escapeHtml(quoteStatus?.reason||'目前無法引用到私人賽前草稿。');
+ const identity=`data-evidence-lane="${escapeHtml(lane)}" data-evidence-id="${escapeHtml(card?.id||'')}"`;
+ return `<div class="mystic-quote-actions"><span class="mystic-quote-hint">${enabled?'只加入理由草稿，尚未儲存。':reason}</span><div><button class="button secondary" data-quote-stance="support" ${identity} ${enabled?'':'disabled'}>引用為支持</button><button class="button secondary" data-quote-stance="counter" ${identity} ${enabled?'':'disabled'}>引用為反例</button></div></div>`;
+}
+
+function cardMarkup(card,icon,lane,quoteStatus){
  if(!card)return '';
  const year=Number.isInteger(card.year)?String(card.year):'歷史';
  const applies=escapeHtml(card.applies||'適用範圍待確認');
@@ -32,13 +39,14 @@ function cardMarkup(card,icon){
   <p class="mystic-interpretation"><b>這場怎麼看</b>${escapeHtml(card.interpretation||'只作觀賽脈絡，不延伸為預測。')}</p>
   <details class="mystic-counter"><summary>適用範圍與反例</summary><p><b>適用方式：</b>${applies}</p><p><b>保留條件：</b>${escapeHtml(card.limitation||'不同年份與陣容不能直接類推。')}</p></details>
   ${sourceMarkup(card.source,icon)}
+  ${quoteActions({lane,card,quoteStatus})}
  </article>`;
 }
 
-function laneMarkup({label,title,description,cards,empty,icon}){
+function laneMarkup({lane,label,title,description,cards,empty,icon,quoteStatus}){
  return `<section class="mystic-lane">
   <div class="mystic-lane-heading"><span class="tiny-label">${escapeHtml(label)}</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(description)}</p></div>
-  ${cards?.length?`<div class="mystic-evidence-grid">${cards.map(card=>cardMarkup(card,icon)).join('')}</div>`:`<div class="mystic-empty-lane">${escapeHtml(empty)}</div>`}
+  ${cards?.length?`<div class="mystic-evidence-grid">${cards.map(card=>cardMarkup(card,icon,lane,quoteStatus)).join('')}</div>`:`<div class="mystic-empty-lane">${escapeHtml(empty)}</div>`}
  </section>`;
 }
 
@@ -57,7 +65,7 @@ function miniMarkup({assessment,match,icon}){
  return `<section class="panel mystic-mini mystic-panel"><span class="tiny-label purple">HISTORY × INTUITION</span><h3>這場，也有另一種劇本。</h3>${scoreMarkup({assessment,match})}<p class="mystic-mini-copy">${escapeHtml(detail)}</p><p class="mystic-limit">玄學不改變專業模型、Elo 或 Key Player 評估。</p><button class="text-button" data-tab="mystic">查看歷史脈絡 ${icon('arrow')}</button></section>`;
 }
 
-export function mysticView({assessment,match,theme,themes,mini=false,icon}){
+export function mysticView({assessment,match,theme,themes,mini=false,icon,quoteStatus}={}){
  if(mini)return miniMarkup({assessment,match,icon});
  const missing=assessment?.missingTeams?.length?`目前沒有 ${assessment.missingTeams.map(escapeHtml).join('、')} 的可直接套用隊史；不以同賽區隊伍冒充隊史。`:'';
  const pacTeams=match?.teams?.filter(team=>team?.region==='PAC'&&team?.code&&team.code!=='TBD').map(team=>escapeHtml(team.code))||[];
@@ -68,9 +76,9 @@ export function mysticView({assessment,match,theme,themes,mini=false,icon}){
   <section class="mystic-theme-summary"><div><span class="tiny-label">SELECTED STORY</span><h4>${escapeHtml(theme?.title||'歷史脈絡')}</h4><p>${escapeHtml(theme?.text||'選擇一個觀賽角度。')}</p></div>${scoreMarkup({assessment,match})}</section>
   <p class="mystic-limit">${escapeHtml(theme?.limit||'玄學只作主觀敘事。')} 不提供機率，也不會調整 Elo、比分分布或 Key Player 評估。</p>
   ${missing?`<p class="mystic-missing">${missing}</p>`:''}${pacNotice?`<p class="mystic-missing">${pacNotice}</p>`:''}
-  ${laneMarkup({label:'TEAM EXPERIENCE',title:'隊伍經歷',description:'只收同一組織的歷史，且明確標示它屬於舊陣容。',cards:assessment?.team,empty:'尚無可核實、可直接套用的同組織國際賽／世界賽經歷。',icon})}
-  ${laneMarkup({label:'REGION MEMORY',title:'賽區記憶',description:'這是同賽區的類比，不是目前隊伍的成績或天賦。',cards:assessment?.region,empty:'尚無適合的賽區類比；不強行替未知來源的隊伍加上區域故事。',icon})}
-  ${laneMarkup({label:'WORLDS STORY',title:'世界賽特殊劇本',description:'世界賽共同記憶可啟發提問，但不會替當前陣容累積勝率。',cards:assessment?.worlds,empty:'尚無對應的世界賽故事。',icon})}
-  ${laneMarkup({label:'THIS TOURNAMENT',title:'本屆賽果脈絡',description:'只列此次開賽前已確認的官方結果；再戰時同時保留延續與復仇兩種解讀。',cards:assessment?.recent,empty:'開賽前沒有可用的本屆官方賽果。',icon})}
+  ${laneMarkup({lane:'team',label:'TEAM EXPERIENCE',title:'隊伍經歷',description:'只收同一組織的歷史，且明確標示它屬於舊陣容。',cards:assessment?.team,empty:'尚無可核實、可直接套用的同組織國際賽／世界賽經歷。',icon,quoteStatus})}
+  ${laneMarkup({lane:'region',label:'REGION MEMORY',title:'賽區記憶',description:'這是同賽區的類比，不是目前隊伍的成績或天賦。',cards:assessment?.region,empty:'尚無適合的賽區類比；不強行替未知來源的隊伍加上區域故事。',icon,quoteStatus})}
+  ${laneMarkup({lane:'worlds',label:'WORLDS STORY',title:'世界賽特殊劇本',description:'世界賽共同記憶可啟發提問，但不會替當前陣容累積勝率。',cards:assessment?.worlds,empty:'尚無對應的世界賽故事。',icon,quoteStatus})}
+  ${laneMarkup({lane:'recent',label:'THIS TOURNAMENT',title:'本屆賽果脈絡',description:'只列此次開賽前已確認的官方結果；再戰時同時保留延續與復仇兩種解讀。',cards:assessment?.recent,empty:'開賽前沒有可用的本屆官方賽果。',icon,quoteStatus})}
  </section>`;
 }

@@ -24,3 +24,12 @@ test('untrusted fields remain text and unsafe source URLs never become active li
   assert.ok(!html.includes('href='),url);
  }
 });
+
+test('quote controls explicitly target a current evidence identity and show unavailable context',()=>{
+ const assessment=mysticAssessment(match,[],null,'underdog',Date.parse('2026-10-17T10:00:00Z'));
+ const view=quoteStatus=>mysticView({assessment,match,theme:{id:'underdog',...THEMES.underdog},themes:THEMES,icon,quoteStatus});
+ const enabled=view({enabled:true});
+ assert.ok(enabled.includes('data-evidence-lane="region" data-evidence-id="kabum-2014"'));
+ assert.ok(enabled.includes('data-quote-stance="support"'));assert.ok(enabled.includes('data-quote-stance="counter"'));assert.ok(enabled.includes('尚未儲存'));
+ const disabled=view({enabled:false,reason:'此場已鎖定 <test>'});assert.ok(disabled.includes('此場已鎖定 &lt;test&gt;'));assert.ok(/data-quote-stance="support"[^>]*disabled/.test(disabled));
+});
